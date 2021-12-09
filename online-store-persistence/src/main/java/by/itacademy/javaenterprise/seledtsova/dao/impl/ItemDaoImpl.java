@@ -4,8 +4,6 @@ import by.itacademy.javaenterprise.seledtsova.dao.ItemDao;
 import by.itacademy.javaenterprise.seledtsova.entity.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,12 +13,12 @@ import javax.persistence.Query;
 import java.util.List;
 
 @Repository
-public class ItemDaoImpl implements ItemDao{
+public class ItemDaoImpl implements ItemDao {
 
     private static final Logger logger = LoggerFactory.getLogger(ItemDaoImpl.class);
 
     @PersistenceContext
-      protected EntityManager entityManager;
+    protected EntityManager entityManager;
 
 
     @Transactional(readOnly = true)
