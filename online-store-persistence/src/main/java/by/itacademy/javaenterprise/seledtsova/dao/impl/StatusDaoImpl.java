@@ -22,7 +22,6 @@ public class StatusDaoImpl implements StatusDao {
     protected EntityManager entityManager;
 
 
-
     @Override
     public Status findStatusByName(StatusType statusType) {
         try {
