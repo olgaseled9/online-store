@@ -8,7 +8,8 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd ">
 
-    <context:component-scan base-package="by.itacademy.javaenterprise.seledtsova.service,by.itacademy.javaenterprise.seledtsova.dao,by.itacademy.javaenterprise.seledtsova.convectors" />
+    <context:component-scan
+            base-package="by.itacademy.javaenterprise.seledtsova.service,by.itacademy.javaenterprise.seledtsova.dao,by.itacademy.javaenterprise.seledtsova.convectors"/>
 
 </beans>
 

@@ -25,14 +25,12 @@
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
     <div class="container">
-        <h1 class="mt-5">It's simple <i>${appName}</i>.</h1>
-        <p class="lead">This page was enriched with: <strong class="d-inline-block mb-2 text-success">${controllerVariable}</strong></p>
+        <h1 class="mt-5" style="color: seagreen">It's simple <i>${appName}</i>.</h1>
         <div class="col-md-6">
-            <p>You also can try:</p>
+            <p style="color: darkslategray">To view the list of items follow the link items:</p>
             <ul class="icon-list">
                 <li><a href="${pageContext.request.contextPath}">Model and View</a></li>
-                <li><a href="${pageContext.request.contextPath}/model">Model</a></li>
-                <li><a href="${pageContext.request.contextPath}/map">Map</a></li>
+                <li><a href="${pageContext.request.contextPath}/items">Items</a></li>
             </ul>
         </div>
     </div>

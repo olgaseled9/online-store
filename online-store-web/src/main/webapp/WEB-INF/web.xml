@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app >
+<web-app>
     <display-name>OnlineShop</display-name>
     <description>HomeWork of Java web service with multi tier architecture. Spring/JPA/Hibernate</description>
 
