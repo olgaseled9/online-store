@@ -20,8 +20,6 @@ public class RoleDaoImpl implements RoleDao {
     @PersistenceContext
     protected EntityManager entityManager;
 
-
-
     @Override
     public Role findRoleById(Long id) {
         Role role = new Role();

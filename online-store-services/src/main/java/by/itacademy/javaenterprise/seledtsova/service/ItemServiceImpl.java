@@ -1,10 +1,10 @@
-package by.itacademy.javaenterprise.seledtsova.service.impl;
+package by.itacademy.javaenterprise.seledtsova.service;
 
 import by.itacademy.javaenterprise.seledtsova.convectors.ItemServiceConverter;
 import by.itacademy.javaenterprise.seledtsova.dao.ItemDao;
 import by.itacademy.javaenterprise.seledtsova.dto.ItemDTO;
 import by.itacademy.javaenterprise.seledtsova.entity.Item;
-import by.itacademy.javaenterprise.seledtsova.service.ItemService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +14,13 @@ import java.util.List;
 
 
 @Service
- //@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
     @Autowired
     private final ItemDao itemDao;
     @Autowired
     private final ItemServiceConverter converter;
-
-    public ItemServiceImpl(ItemDao itemDao, ItemServiceConverter converter) {
-        this.itemDao = itemDao;
-        this.converter = converter;
-    }
 
     @Override
     @Transactional
