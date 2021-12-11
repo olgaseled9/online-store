@@ -1,16 +1,22 @@
-# Home task #20
+# Home task #21
 
-1. new git repo
-2. all best practices (.gitignore, readme etc)
-3. base on modules home task #18
-4. add web module
-5. add spring dispatcher servlet
-6. add spring context
-7. deploy to servlet container per student
+1. git repo and best practices
+2. base on #20
+3. add DAO and hibernate tiers with spring integration
+4. all configurations in Java code (don't use xml)
+5. deploy to servlet container per student
+   Note: see example https://github.com/vladislav-sidorovich/web-service-example
 
 # Technologies
 
-Java version: 11 Postgres database docker-compose Flyway Hibernate Slf4j+logback Lombok
+1. Java version: 11
+2. Postgres 
+3. database
+4. docker-compose
+5. Flyway
+6. Hibernate
+7. Slf4j+logback Lombok
+8. Spring
 
 How to use:
 
