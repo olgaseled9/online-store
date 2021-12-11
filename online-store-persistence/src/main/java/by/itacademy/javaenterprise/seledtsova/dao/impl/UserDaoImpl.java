@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
 import by.itacademy.javaenterprise.seledtsova.dao.UserDao;
 import by.itacademy.javaenterprise.seledtsova.entity.User;
+import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class UserDaoImpl implements UserDao {
             entityManager.getTransaction().begin();
             entityManager.persist(user);
             entityManager.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             entityManager.getTransaction().rollback();
             logger.error("Cannot save user" + e.getMessage(), e);
         }
@@ -55,7 +56,7 @@ public class UserDaoImpl implements UserDao {
             entityManager.find(User.class, user.getId());
             entityManager.merge(user);
             entityManager.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             entityManager.getTransaction().rollback();
             logger.error("Cannot update user" + e.getMessage(), e);
         }
@@ -68,7 +69,7 @@ public class UserDaoImpl implements UserDao {
             User user = entityManager.find(User.class, id);
             entityManager.remove(user);
             entityManager.getTransaction().commit();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             entityManager.getTransaction().rollback();
             logger.error("Cannot delete user " + e.getMessage(), e);
         }
@@ -80,7 +81,7 @@ public class UserDaoImpl implements UserDao {
             String queryString = "from " + User.class.getName();
             Query query = entityManager.createQuery(queryString);
             return query.getResultList();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             logger.error("Cannot get all users " + e.getMessage(), e);
         }
         return null;

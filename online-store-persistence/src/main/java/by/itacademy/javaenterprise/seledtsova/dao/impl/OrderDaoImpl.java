@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
 import by.itacademy.javaenterprise.seledtsova.dao.OrderDao;
 import by.itacademy.javaenterprise.seledtsova.entity.Order;
+import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -31,7 +32,7 @@ public class OrderDaoImpl implements OrderDao {
         Order order = new Order();
         try {
             order = entityManager.find(Order.class, id);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             logger.error("Cannot find order by id" + e.getMessage(), e);
         }
         return order;

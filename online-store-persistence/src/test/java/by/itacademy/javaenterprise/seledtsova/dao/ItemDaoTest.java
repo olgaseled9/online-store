@@ -2,6 +2,8 @@ package by.itacademy.javaenterprise.seledtsova.dao;
 
 import by.itacademy.javaenterprise.seledtsova.dao.impl.ItemDaoImpl;
 import by.itacademy.javaenterprise.seledtsova.entity.Item;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

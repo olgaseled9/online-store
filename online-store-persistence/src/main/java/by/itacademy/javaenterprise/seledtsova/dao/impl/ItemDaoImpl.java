@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
 import by.itacademy.javaenterprise.seledtsova.dao.ItemDao;
 import by.itacademy.javaenterprise.seledtsova.entity.Item;
+import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -30,7 +31,7 @@ public class ItemDaoImpl implements ItemDao {
         Item item = new Item();
         try {
             item = entityManager.find(Item.class, id);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             logger.error("Cannot find item by id" + e.getMessage(), e);
         }
         return item;

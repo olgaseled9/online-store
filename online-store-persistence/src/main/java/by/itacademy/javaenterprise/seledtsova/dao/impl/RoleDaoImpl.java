@@ -3,6 +3,7 @@ package by.itacademy.javaenterprise.seledtsova.dao.impl;
 import by.itacademy.javaenterprise.seledtsova.dao.RoleDao;
 import by.itacademy.javaenterprise.seledtsova.entity.Role;
 import by.itacademy.javaenterprise.seledtsova.entity.RoleType;
+import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -25,7 +26,7 @@ public class RoleDaoImpl implements RoleDao {
         Role role = new Role();
         try {
             role = entityManager.find(Role.class, id);
-        } catch (Exception e) {
+        } catch (DaoException e) {
             logger.error("Cannot find role by id" + e.getMessage(), e);
         }
         return role;
@@ -37,7 +38,7 @@ public class RoleDaoImpl implements RoleDao {
             Query query = entityManager.createQuery(FIND_ROLE_BY_NAME_QUERY);
             query.setParameter("name", roleType);
             return (Role) query.getSingleResult();
-        } catch (Exception e) {
+        } catch (DaoException e) {
             logger.error("Cannot find role by id" + e.getMessage(), e);
         }
         return null;
