@@ -24,6 +24,6 @@ How to use:
 2. To run environment: $docker-compose up -d
 3. mvn flyway:migrate
 4. Copy war file into Tomcat directory (/webapps)
-5. Run Tomcat bat file bin/startup.bat
+5. Run Tomcat bat: catalina.bat run
 
 

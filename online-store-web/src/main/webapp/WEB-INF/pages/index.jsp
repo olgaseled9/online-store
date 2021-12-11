@@ -25,7 +25,7 @@
 <body class="d-flex flex-column h-100">
 <main class="flex-shrink-0">
     <div class="container">
-        <h1 class="mt-5" style="color: seagreen">It's simple <i>${appName}</i>.</h1>
+        <h1 class="mt-5" style="color: seagreen">It's simple Online shop web service example.</h1>
         <div class="col-md-6">
             <p style="color: darkslategray">To view the list of items follow the link items:</p>
             <ul class="icon-list">
