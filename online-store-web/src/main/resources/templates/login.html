@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<form method="post" class="container" action="#" th:action="@{/login}">
+    <h2 class="mt-5" style="color: #a1134c">Please LOGIN</h2>
+    <hr>
+    <div class="row">
+        <div class="col-sm-3">
+            <label for="username" class="form-label"><b>Username:</b></label>
+            <input type="username" minlength="3" maxlength="15" name="username" id="username" required
+                   placeholder="username" class="form-control input-sm">
+        </div>
+        <br>
+        <div class="col-sm-3">
+            <label for="password" class="form-label"><b>Password:</b></label>
+            <input type="password" minlength="3" maxlength="15" name="password" id="password" required
+                   placeholder="password" class="form-control">
+        </div>
+        <hr>
+        <div class="col-sm-5">
+        <button type="submit" class="btn btn-primary btn-lg">Login</button>
+        <button type="reset" class="btn btn-primary btn-lg ">Reset</button>
+         <button type="button" onclick="goBack()" class="btn btn-primary btn-lg">Back</button>
+    </div>
+     </div>
+</form>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

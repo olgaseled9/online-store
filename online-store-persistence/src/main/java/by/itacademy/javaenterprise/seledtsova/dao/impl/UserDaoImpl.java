@@ -1,89 +1,35 @@
 package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
+
 import by.itacademy.javaenterprise.seledtsova.dao.UserDao;
 import by.itacademy.javaenterprise.seledtsova.entity.User;
-import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
-import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
+@Log4j2
 @Repository
-public class UserDaoImpl implements UserDao {
+public class UserDaoImpl extends GenericDaoImpl<Long, User> implements UserDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(UserDaoImpl.class);
+    private static final String FIND_USER_WITH_ROLE_BY_USERNAME_QUERY = "select u from User u join fetch u.role where u.username = :user_name";
 
-    @PersistenceContext
-    protected EntityManager entityManager;
-
-    @Override
-    public User saveUser(User user) {
-        if (user == null) throw new IllegalArgumentException();
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.persist(user);
-            entityManager.getTransaction().commit();
-        } catch (DaoException e) {
-            entityManager.getTransaction().rollback();
-            logger.error("Cannot save user" + e.getMessage(), e);
-        }
-        return user;
+    public UserDaoImpl(EntityManager entityManager) {
     }
 
     @Override
-    public User findUserById(Long id) {
-        User user = new User();
+    public User findByUsername(String username) {
+        Query query = entityManager.createQuery(FIND_USER_WITH_ROLE_BY_USERNAME_QUERY);
+        query.setParameter("user_name", username);
         try {
-            user = entityManager.find(User.class, id);
-        } catch (Exception e) {
-            logger.error("Cannot find user by id" + e.getMessage(), e);
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            log.error(e.getMessage(), e);
+            return null;
         }
-        return user;
-    }
-
-    @Override
-    public void updateUser(User user) {
-        try {
-            entityManager.getTransaction().begin();
-            entityManager.find(User.class, user.getId());
-            entityManager.merge(user);
-            entityManager.getTransaction().commit();
-        } catch (DaoException e) {
-            entityManager.getTransaction().rollback();
-            logger.error("Cannot update user" + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public void deleteUser(Long id) {
-        try {
-            entityManager.getTransaction().begin();
-            User user = entityManager.find(User.class, id);
-            entityManager.remove(user);
-            entityManager.getTransaction().commit();
-        } catch (DaoException e) {
-            entityManager.getTransaction().rollback();
-            logger.error("Cannot delete user " + e.getMessage(), e);
-        }
-    }
-
-    @Override
-    public List<User> findAll() {
-        try {
-            String queryString = "from " + User.class.getName();
-            Query query = entityManager.createQuery(queryString);
-            return query.getResultList();
-        } catch (DaoException e) {
-            logger.error("Cannot get all users " + e.getMessage(), e);
-        }
-        return null;
     }
 }
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Denied page</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<div class="container-fluid">
+    <h2 style="color: darkred">Access is denied!</h2>
+    <div sec:authorize="isAuthenticated()">
+        You are authenticated as: <span sec:authentication="name"></span></div>
+    <br>
+    <button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
+</div>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

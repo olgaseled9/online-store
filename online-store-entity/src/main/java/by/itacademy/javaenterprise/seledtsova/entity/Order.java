@@ -25,7 +25,7 @@ public class Order {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             optional = false
     )
     @JoinColumn(name = "status_id", nullable = false)
@@ -33,7 +33,7 @@ public class Order {
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             optional = false
     )
     @JoinColumn(name = "user_id")

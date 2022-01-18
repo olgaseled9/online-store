@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>New review page</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/items}" class="nav-link">Items</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<body>
+<form action="#" class="container" th:action="@{/reviews/add}" th:object="${reviewDTO}" method="post">
+    <h1 style="color: #a1134c">Add new review</h1>
+    <div sec:authorize="isAuthenticated()">
+        <h5 style="color:darkslategray;">You are authenticated as: <span sec:authentication="name"></span></h5></div>
+    <div class="col-sm-2">
+        <h3 style="color: #0c4128">Current date:</h3>
+        <p th:text="${#temporals.format(localDate, 'dd-MM-yyyy')}"></p>
+    </div>
+    <div class="col-sm-5">
+        <label for="reviewBody" class="form-label">Enter review:</label>
+        <input type="text" th:field="*{reviewBody}" id="reviewBody"
+               class="form-control">
+        <div th:if="${#fields.hasErrors('reviewBody')}" th:errors="*{reviewBody}">Name Error</div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

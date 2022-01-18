@@ -15,8 +15,8 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
     @Id
-    @SequenceGenerator(name = "user_id_seq", sequenceName = "user_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
     @Column(updatable = false, nullable = false)
     private Long id;
     @Column(name = "first_name")
@@ -28,12 +28,11 @@ public class User {
     @Column(name = "user_name")
     private String username;
     @Column
-    @Transient
     private String password;
 
     @ManyToOne(
             fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             optional = false
     )
     @JoinColumn(name = "role_id", nullable = false)

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "orders_item")
 public class OrderItem {
     @Id
     @SequenceGenerator(name = "orders_item_id_seq", sequenceName = "orders_item_id_seq", allocationSize = 1)

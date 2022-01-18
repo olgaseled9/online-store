@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="utf-8">
+    <title>Simple users list</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<body>
+<form method="get" class="container" action="first" th:action="@{/}">
+    <h1 class="mt-5" style="color: #a1134c">Welcome to Online-store</h1>
+    <hr>
+    <h2 class="m-4" style="color: darkslategray">Log in to continue</h2>
+    <a href="http://localhost:8080/login"><h2 class="m-4" style="color: #050a47">Authorization</h2></a>
+    <h2 class="m-4" style="color: darkslategray">If you are not registered follow the link</h2>
+    <a href="http://localhost:8080/users/add"><h2 class="m-4" style="color: #050a47">Registration</h2></a>
+</form>
+</body>
+</html>

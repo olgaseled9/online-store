@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Add item to order</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/items}" class="nav-link">Items</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<body>
+<form action="#" class="container" th:action="@{/add-item-to-order}" th:object="${itemCountDTO}" method="post">
+    <h3 style="color: #a1134c">Add item to order page</h3>
+    <div>
+        <input type="hidden" th:field="*{itemId}">
+    </div>
+    <div class="col-sm-2">
+        <label for="itemCount" class="form-label">Enter count of items:</label>
+        <input type="number" th:field="*{itemCount}" id="itemCount" placeholder="count"
+               class="form-control">
+        <div th:if="${#fields.hasErrors('itemCount')}" th:errors="*{itemCount}">Name Error</div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Order item!</button>
+    <button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
+</form>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

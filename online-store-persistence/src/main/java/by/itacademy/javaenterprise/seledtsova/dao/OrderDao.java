@@ -1,15 +1,12 @@
 package by.itacademy.javaenterprise.seledtsova.dao;
 
+
 import by.itacademy.javaenterprise.seledtsova.entity.Order;
 
-import java.util.List;
+public interface OrderDao extends GenericDao<Long, Order> {
+    Long getCountOfItemsByOrderAndItemIds(Long orderId, Long itemId);
 
-public interface OrderDao {
-
-    Order findOrderById(Long id);
-
-    List<Order> findAll();
+    Long getCountOfItemsByOrderId(Long id);
 
     Order findOrderByUsername(String username);
-
 }

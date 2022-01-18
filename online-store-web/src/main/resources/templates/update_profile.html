@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Update profile page</title>
+    <link th:href="@{ /css/bootstrap.css}" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<body>
+<form class="container-fluid" action="#" th:action="@{/profiles/update}" th:object="${userProfileDTO}" method="post">
+    <h3 style="color: #a1134c">Update profile page</h3>
+    <div class="col-sm-2">
+        <label for="firstName" class="form-label">Enter first name:</label>
+        <input type="text" th:field="*{firstName}" id="firstName" th:placeholder="*{firstName}"
+               class="form-control">
+    </div>
+    <div class="col-sm-2">
+        <label for="lastName" class="form-label">Enter last name:</label>
+        <input type="text" th:field="*{lastName}" id="lastName" th:placeholder="*{lastName}" class="form-control">
+    </div>
+    <div class="col-sm-2">
+        <label for="patronymic" class="form-label">Enter patronymic:</label>
+        <input type="text" th:field="*{patronymic}" id="patronymic" th:placeholder="*{patronymic}" class="form-control">
+    </div>
+    <div class="col-sm-2">
+        <label for="email" class="form-label">Enter email:</label>
+        <input type="text" th:field="*{email}" id="email" th:placeholder="*{email}" class="form-control">
+
+    </div>
+    <div class="col-sm-2">
+        <label for="telephone" class="form-label">Enter telephone:</label>
+        <input type="text" th:field="*{telephone}" id="telephone" th:placeholder="*{telephone}"
+               class="form-control">
+    </div>
+    <div>
+        <input type="hidden" th:field="*{id}">
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Update</button>
+    <button type="reset" class="btn btn-primary">Reset</button>
+    <button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
+</form>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

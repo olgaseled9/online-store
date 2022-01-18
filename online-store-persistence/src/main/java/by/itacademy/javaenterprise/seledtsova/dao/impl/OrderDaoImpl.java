@@ -1,67 +1,49 @@
 package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
+
 import by.itacademy.javaenterprise.seledtsova.dao.OrderDao;
 import by.itacademy.javaenterprise.seledtsova.entity.Order;
-import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
-import java.util.List;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
+@Log4j2
 @Repository
-public class OrderDaoImpl implements OrderDao {
+public class OrderDaoImpl extends GenericDaoImpl<Long, Order> implements OrderDao {
 
-    private static final Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class);
-    private static final String GET_ORDER_BY_USERNAME_QUERY = "select o from Order o join fetch o.user u where u.username = :username and o.status.id = :id";
+    private static final String GET_ORDER_BY_USERNAME_QUERY = "select o from Order o join fetch o.user u where u.username = :user_name and o.status.id = :id";
+    private static final String GET_COUNT_OF_ONE_ITEM_IN_ORDER_QUERY = "select count (i.id) from Order o join o.items i where o.id=:order_id and i.id=:item_id";
+    private static final String GET_COUNT_OF_ALL_ITEMS_IN_ORDER = "select count (o) from Order o join o.items where o.id=:id";
 
-    @PersistenceContext
-    protected EntityManager entityManager;
 
     @Override
-    public Order findOrderById(Long id) {
-        Order order = new Order();
-        try {
-            order = entityManager.find(Order.class, id);
-        } catch (DaoException e) {
-            logger.error("Cannot find order by id" + e.getMessage(), e);
-        }
-        return order;
+    public Long getCountOfItemsByOrderAndItemIds(Long orderId, Long itemId) {
+        Query query = entityManager.createQuery(GET_COUNT_OF_ONE_ITEM_IN_ORDER_QUERY);
+        query.setParameter("order_id", orderId);
+        query.setParameter("item_id", itemId);
+        return (Long) query.getSingleResult();
+    }
+
+    @Override
+    public Long getCountOfItemsByOrderId(Long id) {
+        Query query = entityManager.createQuery(GET_COUNT_OF_ALL_ITEMS_IN_ORDER);
+        query.setParameter("id", id);
+        return (Long) query.getSingleResult();
     }
 
     @Override
     public Order findOrderByUsername(String username) {
         Long id = 1L;
         Query query = entityManager.createQuery(GET_ORDER_BY_USERNAME_QUERY);
-        query.setParameter("username", username);
+        query.setParameter("user_name", username);
         query.setParameter("id", id);
         try {
             return (Order) query.getSingleResult();
-        } catch (NoResultException e) {
-            logger.error(e.getMessage(), e);
+        } catch (NonUniqueResultException e) {
+            log.error(e.getMessage(), e);
             return null;
         }
     }
-
-    @Override
-    public List<Order> findAll() {
-        try {
-            String queryString = "from " + Order.class.getName();
-            Query query = entityManager.createQuery(queryString);
-            return query.getResultList();
-        } catch (Exception e) {
-            logger.error("Cannot get all orders " + e.getMessage(), e);
-        }
-        return null;
-    }
 }
-

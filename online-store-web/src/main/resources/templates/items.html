@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Simple items list</title>
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+</head>
+<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/profiles/get}" class="nav-link">User own profile</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
+                <a href="#" th:href="@{/orders/show}" class="nav-link">Show orders</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
+                <a href="#" th:href="@{/add-item}" class="nav-link">Add new item</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
+                <a href="#" th:href="@{/get}" class="nav-link">Add item to order</a>
+            </li>
+            <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
+                <a href="#" th:href="@{/reviews/add}" class="nav-link">Add review</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" th:href="@{/reviews/get}" class="nav-link">Reviews</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<body>
+<h2 class="mt-5" style="color: #a1134c">List of items</h2>
+<hr>
+<table class="table table-condensed">
+    <thead>
+    <tr>
+        <th>Number</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item:${items}">
+        <td th:text="${item.getId()}"></td>
+        <td th:text="${item.getName()}"></td>
+        <td th:text="${item.getPrice()}"></td>
+        <td th:text="${item.getDescription()}"></td>
+        <td>
+</table>
+<hr>
+<button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>
