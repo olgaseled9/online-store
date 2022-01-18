@@ -19,10 +19,10 @@ class ItemServiceConverterImplTest {
     @Test
     void shouldConvertItemToDTOAndReturnCorrectId() {
         Item item = new Item();
-        Long testId = 1L;
-        item.setId(testId);
+        Long id = 1L;
+        item.setId(id);
         ItemDTO itemDTO = itemServiceConverter.convertItemToDTO(item);
-        Assertions.assertEquals(testId, itemDTO.getId());
+        Assertions.assertEquals(id, itemDTO.getId());
     }
 
     @Test

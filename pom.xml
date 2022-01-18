@@ -18,6 +18,7 @@
         <module>online-store-persistence</module>
         <module>online-store-services</module>
         <module>online-store-web</module>
+        <module>online-store-integration-test</module>
     </modules>
 
     <properties>
