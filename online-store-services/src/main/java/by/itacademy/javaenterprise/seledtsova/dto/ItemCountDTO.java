@@ -11,6 +11,6 @@ public class ItemCountDTO {
     private Long itemId;
     @NotNull
     @Min(1)
-    @Max(100)
+    @Max(15)
     private Integer itemCount;
 }

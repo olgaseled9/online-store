@@ -6,19 +6,14 @@ import by.itacademy.javaenterprise.seledtsova.entity.User;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
-
 
 @Log4j2
 @Repository
 public class UserDaoImpl extends GenericDaoImpl<Long, User> implements UserDao {
 
     private static final String FIND_USER_WITH_ROLE_BY_USERNAME_QUERY = "select u from User u join fetch u.role where u.username = :user_name";
-
-    public UserDaoImpl(EntityManager entityManager) {
-    }
 
     @Override
     public User findByUsername(String username) {

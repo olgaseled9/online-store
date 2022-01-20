@@ -4,7 +4,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan(basePackages = "by.itacademy.javaenterprise.seledtsova")
+@ComponentScan(basePackages = "by.itacademy.javaenterprise.seledtsova.dao")
 public class SpringPersistenceConfig {
 
 }

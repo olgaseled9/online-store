@@ -25,7 +25,7 @@ import static by.itacademy.javaenterprise.seledtsova.util.ServiceUtil.getNumbers
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-    @Autowired
+
     private final ItemDao itemDao;
     @Autowired
     private final OrderItemDao orderItemDao;
