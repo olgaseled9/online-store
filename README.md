@@ -1,8 +1,8 @@
 > This is the final course project - an online resource that includes a simple online store. The project uses 3 main roles for users, which respectively have different access and have different capabilities.
 
-* [General information about the project ](#general-information about the project)
+* [General information about the project ](#general-information-about-the-project)
 * [Technologies ](#technologies)
-* [How to build ](#how to build)
+* [How to build ](#how-to-build)
 * [Screenshots ](#screenshots)
 
 ## General information about the project
