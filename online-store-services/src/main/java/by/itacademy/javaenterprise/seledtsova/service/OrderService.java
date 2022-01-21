@@ -8,13 +8,14 @@ import by.itacademy.javaenterprise.seledtsova.entity.StatusType;
 import java.util.List;
 
 public interface OrderService {
-    ItemShowPageDTO findOrdersAndItemsWithPagination(int pageNumber, int pageSize);
-
-    OrderShowDTO findOrderWithItemsByOrderId(Long id);
 
     List<OrderShowDTO> getOrders();
 
     void updateStatusByOrderId(Long id, StatusType statusType);
+
+    ItemShowPageDTO findOrdersAndItemsWithPagination(int pageNumber, int pageSize);
+
+    OrderShowDTO findOrderWithItemsByOrderId(Long id);
 
     void addItemToOrder(Integer itemsCount, Long itemId, String username);
 }

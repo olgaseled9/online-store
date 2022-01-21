@@ -5,4 +5,5 @@ create table item
     price       decimal      not null,
     description varchar(200) not null
 );
+alter sequence item_id_seq owned by item.id;
 

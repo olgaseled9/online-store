@@ -1,6 +1,6 @@
 insert into item (id, name, price, description)
-values (nextval('item_id_seq'), 'Christmas tree', 825.00,'The tree is decorated with natural cones and fluffy tapered legs with white dusting.' ),
-       (nextval('item_id_seq'), 'Mini spruce', 25.00,'Snow-covered mini-spruce in a pot.' ),
-       (nextval('item_id_seq'), 'Christmas figurine Santa Claus', 295.00,'This large figurine will be a wonderful home decoration for the New Year holidays.' ),
-       (nextval('item_id_seq'), 'Christmas snowman figure', 1200.00,'Life-size figure of snowman Olaf from the popular cartoon Frozen.' ),
-       (nextval('item_id_seq'), 'Christmas wreath', 134.00,'The decor of this Christmas wreath is a combination of snow-covered spruce twigs with red berries and natural cones.' );
+values (nextval('item_id_seq'), 'Inflatable chaise lounge chair', 96.00,'Constructed from durable, superior vinyl, the chair can support loads up to 125kg..' ),
+       (nextval('item_id_seq'), 'Inflatable raft', 115.00,'Wings - made in photorealistic design. Made specifically for those who like to be in the spotlight, these wings will not leave anyone indifferent..' ),
+       (nextval('item_id_seq'), 'Swimming goggles', 15.00,'Made from hypoallergenic plastic with an anti-fog coating.' ),
+       (nextval('item_id_seq'), 'Inflatable mattress', 39.00,'Classic model, simple and economical option for home or travel.' ),
+       (nextval('item_id_seq'), 'Swimming snorkel mask', 39.00,'Underwater life is hidden from our eyes, which is why it is so interesting to watch fish, corals and other underwater inhabitants.' );

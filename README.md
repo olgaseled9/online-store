@@ -1,29 +1,48 @@
-# Home task #21
+> This is the final course project - an online resource that includes a simple online store. The project uses 3 main roles for users, which respectively have different access and have different capabilities.
 
-1. git repo and best practices
-2. base on #20
-3. add DAO and hibernate tiers with spring integration
-4. all configurations in Java code (don't use xml)
-5. deploy to servlet container per student
-   Note: see example https://github.com/vladislav-sidorovich/web-service-example
+* [General information about the project](#general-information about the project)
+* [Technologies ](#technologies)
+* [How to build](#how to build)
+* [Screenshots](#screenshots)
 
-# Technologies
+## General information about the project
 
-1. Java version: 11
-2. Postgres 
-3. database
-4. docker-compose
-5. Flyway
-6. Hibernate
-7. Slf4j+logback Lombok
-8. Spring
+### This application can be used for the following purposes:
+- To sell various goods on the Internet;
+- Add and change quantity and descriptions of goods;
+- Form and track user orders
+- Each client can leave their feedback to improve the application.
 
-How to use:
+
+### Technologies
+- Java 
+- Maven
+- Spring Boot
+- Spring Security
+- Spring MVC
+- Git
+- Docker
+- Hibernate
+- REST
+- JSON
+- HTML5
+- Thymeleaf
+- Log4j2
+- Postgres
+- Apache Pool
+- Flyway
+- Lombok
+- Testcontainers
+- JUnit5
+- Mockito
+
+### How to build
 
 1. Build project: mvn clean install
 2. To run environment: docker-compose up -d
-3. mvn flyway:migrate
-4. Copy war file into Tomcat directory (/webapps)
-5. Run Tomcat bat: catalina.bat run
+3. To run the project: run 'Application.class'.
+
+## Screenshots
+
 
 
