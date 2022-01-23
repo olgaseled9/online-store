@@ -3,6 +3,9 @@
 
 # Log file
 *.log
+*.gz
+*.log.gz
+logs
 
 # BlueJ files
 *.ctxt
@@ -40,4 +43,8 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 /logs/
+.log.gz
 
+/logs/
+/logs/
+/logs/
