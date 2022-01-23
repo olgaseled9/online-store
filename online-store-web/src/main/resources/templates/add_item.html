@@ -27,16 +27,19 @@
         <label for="name" class="form-label">Enter item name:</label>
         <input type="text" th:field="*{name}" id="name"
                class="form-control">
+           <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     </div>
     <div class="col-sm-3">
         <label for="price" class="form-label">Enter item price:</label>
         <input type="text" th:field="*{price}" id="price"
                class="form-control">
+        <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     </div>
     <div class="col-sm-3">
         <label for="description" class="form-label">Enter item description:</label>
         <input type="text" th:field="*{description}" id="description"
                class="form-control">
+        <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
     </div>
     <br>
     <button type="submit" class="btn btn-primary">Add</button>

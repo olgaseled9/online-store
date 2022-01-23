@@ -19,7 +19,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import static by.itacademy.javaenterprise.seledtsova.util.ServiceUtil.getNumbersOfPages;
+import static by.itacademy.javaenterprise.seledtsova.service.impl.ServiceUtil.getNumbersOfPages;
 
 @Service
 @RequiredArgsConstructor

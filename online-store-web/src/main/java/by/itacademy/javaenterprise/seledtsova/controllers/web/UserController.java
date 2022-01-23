@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Log4j2
@@ -40,7 +41,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public String addUser(@ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, Model model) {
+    public String addUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult bindingResult, Model model) {
         model.addAttribute("roles", roleService.findAll());
         if (!bindingResult.hasErrors()) {
             userService.addUser(userDTO);

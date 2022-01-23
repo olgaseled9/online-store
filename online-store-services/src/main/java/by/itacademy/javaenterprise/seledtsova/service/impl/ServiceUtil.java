@@ -1,4 +1,4 @@
-package by.itacademy.javaenterprise.seledtsova.util;
+package by.itacademy.javaenterprise.seledtsova.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;

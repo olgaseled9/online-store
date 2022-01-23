@@ -1,9 +1,7 @@
 package by.itacademy.javaenterprise.seledtsova.controllers.rest;
 
-import by.itacademy.javaenterprise.seledtsova.dto.ItemDTO;
 import by.itacademy.javaenterprise.seledtsova.dto.UserDTO;
 import by.itacademy.javaenterprise.seledtsova.entity.RoleType;
-import by.itacademy.javaenterprise.seledtsova.entity.User;
 import by.itacademy.javaenterprise.seledtsova.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -14,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 

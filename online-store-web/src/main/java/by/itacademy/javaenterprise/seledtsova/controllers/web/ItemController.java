@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class ItemController {
     }
 
     @PostMapping("/add-item")
-    public String addNewItem(@ModelAttribute("itemDTO") ItemDTO itemDTO, BindingResult bindingResult) {
+    public String addNewItem(@ModelAttribute("itemDTO") @Valid ItemDTO itemDTO, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             itemService.addItem(itemDTO);
             log.info("New item add successfully");

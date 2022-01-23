@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.*;
 
-import static by.itacademy.javaenterprise.seledtsova.util.ServiceUtil.getNumbersOfPages;
+import static by.itacademy.javaenterprise.seledtsova.service.impl.ServiceUtil.getNumbersOfPages;
 
 
 @Service
