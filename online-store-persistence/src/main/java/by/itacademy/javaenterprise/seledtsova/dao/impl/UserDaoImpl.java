@@ -1,6 +1,5 @@
 package by.itacademy.javaenterprise.seledtsova.dao.impl;
 
-
 import by.itacademy.javaenterprise.seledtsova.dao.UserDao;
 import by.itacademy.javaenterprise.seledtsova.entity.User;
 import lombok.extern.log4j.Log4j2;

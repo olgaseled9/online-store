@@ -4,7 +4,6 @@ import by.itacademy.javaenterprise.seledtsova.dao.GenericDao;
 import by.itacademy.javaenterprise.seledtsova.exception.DaoException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,7 +16,6 @@ public abstract class GenericDaoImpl<I, T> implements GenericDao<I, T> {
     private static final Logger logger = LoggerFactory.getLogger(GenericDaoImpl.class);
 
     @PersistenceContext
-    @Qualifier(value = "entityManagerFactory")
     public EntityManager entityManager;
     public Class<T> entityClass;
 

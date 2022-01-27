@@ -42,6 +42,16 @@
 3. To run the project: run 'Application.class'.
 
 ## Screenshots
+![users](./img/users.jpg)
+![users_profile](./img/users_profile.jpg)
+![list_of_items](./img/list_of_items.jpg)
+![update_users_profiles](./img/update_users_profiles.jpg)
+![list_of_reviews](./img/list_of_reviews.jpg)
+![list_of_orders](./img/list_of_orders.jpg)
+
+
+
+
 
 
 

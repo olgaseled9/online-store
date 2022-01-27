@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 
-
 @Repository
 public class RoleDaoImpl extends GenericDaoImpl<Long, Role> implements RoleDao {
 

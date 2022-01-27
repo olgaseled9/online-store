@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-
 @Log4j2
 @Controller
 @RequiredArgsConstructor

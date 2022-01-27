@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 
-
 @Repository
 public class StatusDaoImpl extends GenericDaoImpl<Long, Status> implements StatusDao {
 

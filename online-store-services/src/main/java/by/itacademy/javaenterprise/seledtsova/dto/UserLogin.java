@@ -1,6 +1,5 @@
 package by.itacademy.javaenterprise.seledtsova.dto;
 
-
 import by.itacademy.javaenterprise.seledtsova.entity.Role;
 import by.itacademy.javaenterprise.seledtsova.entity.User;
 import org.springframework.security.core.GrantedAuthority;

@@ -29,6 +29,4 @@ class UserDetailsServiceImplTest {
         when(userService.findUserByUsername(userName)).thenReturn(user);
         assertNotEquals((userDetailsService.loadUserByUsername(user.getUsername())), userLogin);
     }
-
-
 }

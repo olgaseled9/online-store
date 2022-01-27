@@ -1,6 +1,5 @@
 package by.itacademy.javaenterprise.seledtsova.config;
 
-
 import by.itacademy.javaenterprise.seledtsova.config.handler.WebUrlSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -35,13 +34,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/", "/login")
                 .permitAll()
-                .antMatchers("/users/allusers", "/users/remove", "users/update-role/{id}", "users/update-role")
+                .antMatchers("/users/allusers", "/users/remove", "users/update-role/{id}", "users/update-role", "reviews/get")
                 .hasRole(RoleType.ADMINISTRATOR.name())
                 .antMatchers("/add-item", "/delete-item-by-id", "/show/show-order-by-id", "/orders/update-status")
                 .hasAnyRole(RoleType.ADMINISTRATOR.name(), RoleType.SALE_USER.name())
-                .antMatchers("/profiles/get", "/get", "/add-item-to-order", "/users/add", "orders/show", "/show-item-by-id", "reviews/get", "profiles/get", "profiles/update", "/items")
+                .antMatchers("/profiles/get", "/get", "/add-item-to-order", "/users/add", "orders/show", "/show-item-by-id", "profiles/get", "profiles/update", "/items")
                 .hasAnyRole(RoleType.ADMINISTRATOR.name(), RoleType.SALE_USER.name(), RoleType.CUSTOMER_USER.name())
-                .antMatchers("/reviews/add")
+                .antMatchers("/reviews/add", "reviews/get" )
                 .hasRole(RoleType.CUSTOMER_USER.name())
                 .and()
                 .formLogin()
