@@ -42,9 +42,9 @@
 3. To run the project: run 'Application.class'
 4. To authenticate and view user capabilities, you need enter a username and password. 
 For simple presentation and protection of the project, the username and password are the same.
-for admin : 'admin';
-for customer : 'customer';
-for salesman : 'salesman'. 
+- for admin : 'admin';
+- for customer : 'customer';
+- for salesman : 'salesman'. 
 
 ## Screenshots
 ![users](./img/users.jpg)
