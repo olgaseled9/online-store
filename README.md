@@ -39,7 +39,7 @@
 
 1. Build project: mvn clean install
 2. To run environment: docker-compose up -d
-3. To run the project: run 'Application.class'.
+3. To run the project: run 'Application.class'
 4.To authenticate and view user capabilities, you need enter a username and password. 
 For simple presentation and protection of the project, the username and password are the same.
 for admin : 'admin';
