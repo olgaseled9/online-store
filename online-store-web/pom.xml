@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>online-store-web</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -91,10 +91,10 @@
     <build>
         <plugins>
             <plugin>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.3.2</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>

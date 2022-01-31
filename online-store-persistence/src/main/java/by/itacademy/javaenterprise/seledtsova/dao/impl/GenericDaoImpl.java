@@ -19,10 +19,6 @@ public abstract class GenericDaoImpl<I, T> implements GenericDao<I, T> {
     public EntityManager entityManager;
     public Class<T> entityClass;
 
-    public GenericDaoImpl(EntityManager entityManager) {
-        this.entityManager = entityManager;
-    }
-
     @SuppressWarnings("unchecked")
     public GenericDaoImpl() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass()
