@@ -1,72 +1,91 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
-    <title>Simple users list</title>
+    <title>Users • Online-store</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        :root { --brand: #a1134c; --ink: #0f172a; }
+        body {
+            min-height: 100vh;
+            background:
+                    radial-gradient(1200px 600px at 10% -20%, rgba(161,19,76,.08), transparent 60%),
+                    radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
+                    #f8f9fa;
+            color: var(--ink);
+            padding: 2rem;
+        }
+        .card-elevated {
+            border: 0; border-radius: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 30px rgba(2,6,23,.10);
+        }
+        .brand-title { font-weight: 700; color: var(--brand); }
+        .btn-brand { background: var(--brand); border-color: var(--brand); }
+        .btn-brand:hover, .btn-brand:focus { background: #8a0f41; border-color: #8a0f41; }
+        table thead { background-color: var(--brand); color: #fff; }
+        table tbody tr:nth-child(even) { background-color: #fdf2f6; }
+    </style>
 </head>
-<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/users/add}" class="nav-link">Add new user</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/profiles/get}" class="nav-link">User own profile</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/reviews/get}" class="nav-link">Reviews</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/orders/show}" class="nav-link">Orders</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/get}" class="nav-link">Items</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+
 <body>
-<h2 class="mt-5" style="color: #a1134c">All users</h2>
-<hr>
-<table class="table table-condensed">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>First name</th>
-        <th>Last name</th>
-        <th>Patronymic</th>
-        <th>Username</th>
-        <th>Password</th>
-        <th>Role</th>
-        <th>Update user's role</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="user:${users}">
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getFirstName()}"></td>
-        <td th:text="${user.getLastName()}"></td>
-        <td th:text="${user.getPatronymic()}"></td>
-        <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getPassword()}"></td>
-        <td th:text="${user.getRole()}"></td>
-        <td>
-            <a th:href="@{/users/update-role/(id=${user.getId()})}"><span>Update</span></a>
-        </td>
-</table>
-<hr>
-<button type="button" onclick="goBack()" class="btn btn-primary">Back</button>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+<main class="container-fluid">
+    <!-- Навбар -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded-3 px-3 mb-4">
+        <a class="navbar-brand" th:href="@{/}">Online-store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
+                <li class="nav-item"><a th:href="@{/users/add}" class="nav-link">Add user</a></li>
+                <li class="nav-item"><a th:href="@{/profiles/get}" class="nav-link">Profile</a></li>
+                <li class="nav-item"><a th:href="@{/reviews/get}" class="nav-link">Reviews</a></li>
+                <li class="nav-item"><a th:href="@{/orders/show}" class="nav-link">Orders</a></li>
+                <li class="nav-item"><a th:href="@{/get}" class="nav-link">Items</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Карточка -->
+    <div class="card card-elevated p-4 p-md-5">
+        <h2 class="text-center mb-4 brand-title">All users</h2>
+        <hr>
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Patronymic</th>
+                    <th>Username</th>
+                    <th>Role</th>
+                    <th class="text-center">Update role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.lastName}"></td>
+                    <td th:text="${user.patronymic}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/users/update-role/(id=${user.id})}"
+                           class="btn btn-sm btn-outline-primary">Update</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <a href="javascript:history.back()" class="btn btn-outline-dark">Back</a>
+        </div>
+    </div>
+</main>
 </body>
 </html>

@@ -8,6 +8,8 @@ import by.itacademy.javaenterprise.seledtsova.service.OrderService;
 import by.itacademy.javaenterprise.seledtsova.service.StatusService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+
+import static by.itacademy.javaenterprise.seledtsova.config.RoleType.CUSTOMER_USER;
 
 @Log4j2
 @Controller
@@ -26,12 +30,30 @@ public class OrderController {
     private final OrderService orderService;
     private final StatusService statusService;
 
+    private boolean isAdmin(Authentication auth) {
+        if (auth == null) return false;
+        for (GrantedAuthority a : auth.getAuthorities()) {
+            if (!CUSTOMER_USER.name().equals(a.getAuthority())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @GetMapping("/show")
-    public String getItemsWithOrders(Model model,
-                                     @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
-                                     @RequestParam(value = "page", defaultValue = "1") int pageNumber
+    public String getItemsWithOrders(
+            Model model,
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+            @RequestParam(value = "page", defaultValue = "1") int pageNumber,
+            Authentication auth
     ) {
-        ItemShowPageDTO itemPage = orderService.findOrdersAndItemsWithPagination(pageNumber, pageSize);
+        ItemShowPageDTO itemPage;
+        if (isAdmin(auth)) {
+            itemPage = orderService.findOrdersAndItemsWithPagination(pageNumber, pageSize);
+        } else {
+            String username = auth.getName();
+            itemPage = orderService.findOrdersAndItemsWithPaginationForUser(pageNumber, pageSize, username);
+        }
         model.addAttribute("itemPage", itemPage);
         return "get_all_orders_items";
     }

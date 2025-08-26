@@ -121,6 +121,37 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    @Override
+    @Transactional
+    public ItemShowPageDTO findOrdersAndItemsWithPaginationForUser(int pageNumber, int pageSize, String username) {
+        ItemShowPageDTO itemShowPage = new ItemShowPageDTO();
+
+        // DAO-метод должен уметь выбирать только заказы конкретного пользователя
+        List<Order> orders = orderDao.findWithPaginationByUsername(pageNumber, pageSize, username);
+
+        List<ItemShowDTO> itemShowDTOS = new ArrayList<>();
+        for (Order order : orders) {
+            if (order.getItems() != null) {
+                for (Item item : order.getItems()) {
+                    ItemShowDTO dto = converter.convertOrderToItemShowDTO(order, item);
+                    itemShowDTOS.add(dto);
+                }
+            }
+        }
+
+        itemShowDTOS.sort(Comparator.comparing(ItemShowDTO::getDate).reversed());
+        itemShowPage.getItems().addAll(itemShowDTOS);
+
+        Long countOfOrders = orderDao.getCountByUsername(username);
+        itemShowPage.setPagesCount(countOfOrders);
+
+        List<Integer> numbersOfPages = getNumbersOfPages(pageSize, countOfOrders);
+        itemShowPage.getNumbersOfPages().addAll(numbersOfPages);
+
+        return itemShowPage;
+    }
+
+
     private boolean itemExist(Long itemId) {
         return itemService.findItemById(itemId) != null;
     }

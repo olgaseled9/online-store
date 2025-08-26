@@ -7,12 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import java.util.List;
 
 @Log4j2
 @Repository
 public class OrderDaoImpl extends GenericDaoImpl<Long, Order> implements OrderDao {
 
-    private static final String GET_ORDER_BY_USERNAME_QUERY = "select o from Order o join fetch o.user u where u.username = :user_name and o.status.id = :id";
+    private static final String GET_ORDER_BY_USERNAME_AND_STATUS_CODE =
+            "select o from Order o join fetch o.user u where u.username = :user_name";
     private static final String GET_COUNT_OF_ONE_ITEM_IN_ORDER_QUERY = "select count (i.id) from Order o join o.items i where o.id=:order_id and i.id=:item_id";
     private static final String GET_COUNT_OF_ALL_ITEMS_IN_ORDER = "select count (o) from Order o join o.items where o.id=:id";
 
@@ -34,15 +36,34 @@ public class OrderDaoImpl extends GenericDaoImpl<Long, Order> implements OrderDa
 
     @Override
     public Order findOrderByUsername(String username) {
-        Long id = 1L;
-        Query query = entityManager.createQuery(GET_ORDER_BY_USERNAME_QUERY);
-        query.setParameter("user_name", username);
-        query.setParameter("id", id);
-        try {
-            return (Order) query.getSingleResult();
-        } catch (NonUniqueResultException e) {
-            log.error(e.getMessage(), e);
-            return null;
-        }
+        List<Order> list = entityManager.createQuery(GET_ORDER_BY_USERNAME_AND_STATUS_CODE, Order.class)
+                .setParameter("user_name", username)
+                .getResultList();
+        return list.isEmpty() ? null : list.get(0);
     }
+
+    @Override
+    public List<Order> findWithPaginationByUsername(int page, int size, String username) {
+        return entityManager.createQuery(
+                        "select distinct o from Order o " +
+                                "join fetch o.user u " +
+                                "left join fetch o.items i " +
+                                "where u.username = :username " +
+                                "order by o.id desc", Order.class)
+                .setParameter("username", username)
+                .setFirstResult((page - 1) * size)
+                .setMaxResults(size)
+                .getResultList();
+    }
+
+    @Override
+    public Long getCountByUsername(String username) {
+        return entityManager.createQuery(
+                        "select count(o) from Order o " +
+                                "join o.user u " +
+                                "where u.username = :username", Long.class)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
+
 }

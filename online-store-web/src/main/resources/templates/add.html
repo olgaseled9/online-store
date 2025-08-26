@@ -119,8 +119,7 @@
                          th:errors="*{role}">Role error</div>
                 </div>
 
-                <!-- Для НЕ админа — скрытое поле ROLE=CUSTOMER -->
-                <div sec:authorize="!hasRole('ROLE_ADMINISTRATOR')">
+                              <div sec:authorize="!hasRole('ROLE_ADMINISTRATOR')">
                     <input type="hidden" th:field="*{role}" value="CUSTOMER"/>
                 </div>
             </div>

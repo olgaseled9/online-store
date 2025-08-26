@@ -18,4 +18,6 @@ public interface OrderService {
     OrderShowDTO findOrderWithItemsByOrderId(Long id);
 
     void addItemToOrder(Integer itemsCount, Long itemId, String username);
+
+    ItemShowPageDTO findOrdersAndItemsWithPaginationForUser(int pageNumber, int pageSize, String username);
 }

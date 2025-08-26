@@ -1,69 +1,120 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
-    <title>Simple items list</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <title>Items</title>
+
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+
+    <style>
+        :root { --brand: #a1134c; }
+        body { background: #f6f7fb; }
+        .navbar { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+        .brand-title { color:#fff; letter-spacing:.3px; font-weight:600; }
+        .page-title { color:var(--brand); font-weight:700; letter-spacing:.2px; }
+        .card { border:0; border-radius:16px; box-shadow:0 8px 24px rgba(15,18,38,.06); }
+        .table thead th { position:sticky; top:0; background:#fff; z-index:1; border-bottom:1px solid #e9ecef; text-transform:uppercase; font-size:.75rem; letter-spacing:.06em; color:#6c757d; }
+        .table-hover tbody tr:hover { background:#f9fafc; }
+        .btn-ghost { border-radius:12px; border:1px solid #dee2e6; background:#fff; transition:.15s; }
+        .btn-ghost:hover { border-color:#ced4da; box-shadow:0 4px 14px rgba(0,0,0,.06); }
+        @media (max-width:576px){
+            .table thead{display:none;}
+            .table tbody tr{display:grid; grid-template-columns:1fr; gap:.25rem; border-bottom:1px solid #eee; padding:.75rem 0;}
+            .table td{display:flex; justify-content:space-between; gap:1rem;}
+            .table td::before{content:attr(data-label); font-weight:600; color:#6c757d;}
+        }
+    </style>
 </head>
-<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/profiles/get}" class="nav-link">User own profile</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
-                <a href="#" th:href="@{/orders/show}" class="nav-link">Show orders</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
-                <a href="#" th:href="@{/add-item}" class="nav-link">Add new item</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
-                <a href="#" th:href="@{/get}" class="nav-link">Add item to order</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
-                <a href="#" th:href="@{/reviews/add}" class="nav-link">Add review</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
-                <a href="#" th:href="@{/reviews/get}" class="nav-link">Reviews</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR_USER')">
-                <a href="#" th:href="@{/reviews/get}" class="nav-link">Reviews</a>
-            </li>
-        </ul>
+
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand brand-title" th:href="@{/items}">
+            <span class="me-2">🧾</span> Inventory
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a th:href="@{/profiles/get}" class="nav-link">My profile</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
+                    <a th:href="@{/orders/show}" class="nav-link">Orders</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_SALE_USER')">
+                    <a th:href="@{/add-item}" class="nav-link">Add new item</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_CUSTOMER_USER')">
+                    <a th:href="@{/get}" class="nav-link">Add item to order</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ROLE_CUSTOMER_USER','ROLE_ADMINISTRATOR_USER')">
+                    <a th:href="@{/reviews/get}" class="nav-link">Reviews</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-white-50" sec:authorize="isAuthenticated()">
+                    Signed in as <strong class="text-white" sec:authentication="name"></strong>
+                </div>
+                <a th:href="@{/logout}" class="btn btn-sm btn-outline-light">Log out</a>
+            </div>
+        </div>
     </div>
 </nav>
-<body>
-<h2 class="mt-5" style="color: #a1134c">List of items</h2>
-<hr>
-<table class="table table-condensed">
-    <thead>
-    <tr>
-        <th>Number</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="item:${items}">
-        <td th:text="${item.getId()}"></td>
-        <td th:text="${item.getName()}"></td>
-        <td th:text="${item.getPrice()}"></td>
-        <td th:text="${item.getDescription()}"></td>
-        <td>
-</table>
-<hr>
-<button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+
+<!-- Content -->
+<main class="container py-4 py-md-5">
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <h2 class="page-title mb-3 mb-md-0">Items list</h2>
+
+        <!-- Optional quick search -->
+        <form class="d-flex gap-2" th:action="@{/items}" method="get">
+            <input class="form-control form-control-sm" type="search" name="q"
+                   placeholder="Search by name or description..." aria-label="Search"
+                   th:value="${param.q}">
+            <button class="btn btn-sm btn-ghost" type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${items}">
+                        <td class="ps-4" data-label="ID" th:text="${item.id}">1</td>
+                        <td data-label="Name" th:text="${item.name}">Sample item</td>
+                        <td data-label="Price" th:text="${item.price}">0.00</td>
+                        <td data-label="Description" th:text="${item.description}">—</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="mt-3">
+        <button class="btn btn-ghost" type="button" onclick="history.back()">Back</button>
+    </div>
+</main>
+
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

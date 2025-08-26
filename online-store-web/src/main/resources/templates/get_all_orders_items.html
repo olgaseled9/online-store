@@ -1,69 +1,176 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Orders</title>
-    <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+
+    <link th:href="@{/css/bootstrap.css}" rel="stylesheet"/>
+
+    <style>
+        :root { --brand: #a1134c; }
+        body { background: #f6f7fb; }
+        .navbar { box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+        .brand-title { color:#fff; letter-spacing:.3px; font-weight:600; }
+        .page-title { color:var(--brand); font-weight:700; letter-spacing:.2px; }
+        .card { border:0; border-radius:16px; box-shadow:0 8px 24px rgba(15,18,38,.06); }
+        .table thead th { position:sticky; top:0; background:#fff; z-index:1; border-bottom:1px solid #e9ecef; text-transform:uppercase; font-size:.75rem; letter-spacing:.06em; color:#6c757d; }
+        .table-hover tbody tr:hover { background:#f9fafc; }
+        .status-badge { font-size:.75rem; padding:.35rem .6rem; border-radius:999px; font-weight:600; }
+        /* Simple mapping: status-<STATUS> */
+        .status-CART, .status-DRAFT { background:#fff3cd; color:#856404; }
+        .status-SUCCEEDED, .status-PAID { background:#d4edda; color:#155724; }
+        .status-FAILED { background:#f8d7da; color:#721c24; }
+        .status-CANCELLED { background:#e2e3e5; color:#383d41; }
+        .btn-ghost { border-radius:12px; border:1px solid #dee2e6; background:#fff; transition:.15s; }
+        .btn-ghost:hover { border-color:#ced4da; box-shadow:0 4px 14px rgba(0,0,0,.06); }
+        .pagination .page-link { border:none; color:#495057; }
+        .pagination .page-item.active .page-link { background-color:var(--brand); }
+        .auth-note { font-size:.9rem; color:#6c757d; }
+        @media (max-width:576px){
+            .table thead{display:none;}
+            .table tbody tr{display:grid; grid-template-columns:1fr; gap:.25rem; border-bottom:1px solid #eee; padding:.75rem 0;}
+            .table td{display:flex; justify-content:space-between; gap:1rem;}
+            .table td::before{content:attr(data-label); font-weight:600; color:#6c757d;}
+        }
+    </style>
 </head>
-<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Login page</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-                <a href="#" th:href="@{/users/allusers}" class="nav-link">All users</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/items}" class="nav-link">Items</a>
-            </li>
-        </ul>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand brand-title" th:href="@{/items}">
+            <span class="me-2">🧾</span> Order Center
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a th:href="@{/items}" class="nav-link">Items</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+                    <a th:href="@{/users/allusers}" class="nav-link">Users</a>
+                </li>
+            </ul>
+
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-white-50 auth-note" sec:authorize="isAuthenticated()">
+                    Signed in as <strong class="text-white" sec:authentication="name"></strong>
+                </div>
+                <a th:href="@{/logout}" class="btn btn-sm btn-outline-light">Log out</a>
+            </div>
+        </div>
     </div>
 </nav>
-<body>
-<form action="#" class="container-fluid" th:action="@{/orders/show}">
-    <h2 style="color: #a1134c">List of orders</h2>
-    <div sec:authorize="isAuthenticated()">
-        You are authenticated as <span sec:authentication="name"></span></div>
-    <table class="table table-condensed">
-        <thead>
-        <tr>
-            <th>number of order</th>
-            <th>status</th>
-            <th>item</th>
-            <th>count of items</th>
-            <th>final price</th>
-            <th sec:authorize="hasRole('ROLE_SALE_USER')">link</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="item:${itemPage.items}">
-            <td th:text="${item.orderId}"></td>
-            <td th:text="${item.statusType}"></td>
-            <td th:text="${item.name}"></td>
-            <td th:text="${item.count}"></td>
-            <td th:text="${item.finalPrice}"></td>
-            <td sec:authorize="hasRole('ROLE_SALE_USER')">
-                <a th:href="@{/orders/show-order-by-id/(id=${item.orderId})}"><span>More details</span></a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-    <div th:if="${itemPage.pagesCount gt 0}"
-         th:each="pageNumber : ${itemPage.numbersOfPages}">
-        <a th:href="@{'/orders/show?page=' + ${pageNumber}}"
-           th:text="${pageNumber}"
-           th:name="page" th:value="${pageNumber}"> </a>
+
+<main class="container py-4 py-md-5">
+    <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
+        <h2 class="page-title mb-3 mb-md-0">Orders list</h2>
+
+        <form class="d-flex gap-2" th:action="@{/orders/show}" method="get">
+            <input class="form-control form-control-sm" type="search" name="q"
+                   placeholder="Search by order or item..." aria-label="Search"
+                   th:value="${param.q}">
+            <select class="form-select form-select-sm" name="status" th:value="${param.status}">
+                <option value="">All statuses</option>
+                <option value="CART">Cart</option>
+                <option value="SUCCEEDED">Paid</option>
+                <option value="FAILED">Failed</option>
+                <option value="CANCELLED">Cancelled</option>
+            </select>
+            <button class="btn btn-sm btn-ghost" type="submit">Apply</button>
+        </form>
     </div>
-</form>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+
+    <div class="card">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead>
+                    <tr>
+                        <th class="ps-4">Order #</th>
+                        <th>Status</th>
+                        <th>Item</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                        <th sec:authorize="hasRole('ROLE_SALE_USER')" class="pe-4 text-end">Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="item : ${itemPage.items}">
+                        <td class="ps-4" data-label="Order #">
+                            <span class="fw-semibold" th:text="${item.orderId}">1001</span>
+                        </td>
+
+                        <td data-label="Status">
+                            <span class="status-badge"
+                                  th:classappend="${' status-' + item.statusType}"
+                                  th:text="${item.statusType}">
+                            </span>
+                        </td>
+
+                        <td data-label="Item" th:text="${item.name}">Item name</td>
+                        <td data-label="Qty" th:text="${item.count}">1</td>
+                        <td data-label="Total">
+                            <span class="fw-semibold" th:text="${item.finalPrice}">0.00</span>
+                        </td>
+
+                        <td sec:authorize="hasRole('ROLE_SALE_USER')" class="pe-4 text-end" data-label="Details">
+                            <a class="btn btn-sm btn-ghost"
+                               th:href="@{/orders/show-order-by-id/(id=${item.orderId})}">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 p-3">
+                <div class="text-muted small">
+                    <span th:if="${itemPage.pagesCount > 0}">
+                        Pages: <strong th:text="${itemPage.pagesCount}">1</strong>
+                    </span>
+                </div>
+
+                <nav th:if="${itemPage.pagesCount gt 0}" aria-label="Pagination">
+                    <ul class="pagination pagination-sm mb-0">
+                        <li class="page-item"
+                            th:classappend="${param.page == null or (param.page[0] == '1')} ? ' disabled'">
+                            <a class="page-link" th:href="@{'/orders/show'(page=1)}">&laquo;</a>
+                        </li>
+
+                        <li class="page-item"
+                            th:each="pageNumber : ${itemPage.numbersOfPages}"
+                            th:classappend="${param.page != null and (param.page[0] == #strings.toString(pageNumber))} ? ' active'">
+                            <a class="page-link"
+                               th:text="${pageNumber}"
+                               th:href="@{'/orders/show'(page=${pageNumber})}">1</a>
+                        </li>
+
+                        <li class="page-item"
+                            th:classappend="${param.page != null and (param.page[0] == #strings.toString(itemPage.pagesCount))} ? ' disabled'">
+                            <a class="page-link"
+                               th:href="@{'/orders/show'(page=${itemPage.pagesCount})}">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button class="btn btn-ghost" type="button" onclick="history.back()">Back</button>
+    </div>
+</main>
+
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
