@@ -2,17 +2,109 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="utf-8">
-    <title>Simple users list</title>
+    <title>Welcome • Online-store</title>
+
+    <!-- Bootstrap -->
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+
+    <!-- Небольшой кастомный стиль -->
+    <style>
+        :root {
+            --brand: #a1134c;
+            --ink: #0f172a;
+        }
+        body {
+            min-height: 100vh;
+            background:
+                    radial-gradient(1200px 600px at 10% -20%, rgba(161,19,76,.08), transparent 60%),
+                    radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
+                    #f8f9fa;
+            color: var(--ink);
+        }
+        .hero {
+            padding-top: 8vh;
+            padding-bottom: 8vh;
+        }
+        .brand-badge {
+            display: inline-block;
+            font-weight: 700;
+            letter-spacing: .02em;
+            color: #fff;
+            background: var(--brand);
+            border-radius: 999px;
+            padding: .35rem .75rem;
+            box-shadow: 0 6px 20px rgba(161,19,76,.25);
+        }
+        .welcome-title {
+            font-weight: 800;
+            color: var(--ink);
+        }
+        .welcome-subtitle {
+            color: #475569;
+        }
+        .card-elevated {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow:
+                    0 1px 2px rgba(0,0,0,.04),
+                    0 10px 30px rgba(2,6,23,.10);
+        }
+        .btn-brand {
+            background: var(--brand);
+            border-color: var(--brand);
+        }
+        .btn-brand:hover,
+        .btn-brand:focus {
+            background: #8a0f41;
+            border-color: #8a0f41;
+        }
+        .footer-note {
+            color: #64748b;
+            font-size: .95rem;
+        }
+        a.auth-link {
+            text-decoration: none;
+        }
+    </style>
 </head>
+
 <body>
-<form method="get" class="container" action="first" th:action="@{/}">
-    <h1 class="mt-5" style="color: #a1134c">Welcome to Online-store</h1>
-    <hr>
-    <h2 class="m-4" style="color: darkslategray">Log in to continue</h2>
-    <a href="http://localhost:8080/login"><h2 class="m-4" style="color: #050a47">Authorization</h2></a>
-    <h2 class="m-4" style="color: darkslategray">If you are not registered follow the link</h2>
-    <a href="http://localhost:8080/users/add"><h2 class="m-4" style="color: #050a47">Registration</h2></a>
-</form>
+<main class="container hero">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-9 col-xl-7">
+
+            <div class="text-center mb-4">
+                <span class="brand-badge">Online-store</span>
+            </div>
+
+            <div class="text-center mb-5">
+                <h1 class="welcome-title display-5 mb-3">Welcome to Online-store</h1>
+                <p class="welcome-subtitle lead mb-0">
+                    Log in to continue or create a new account.
+                </p>
+            </div>
+
+            <div class="card card-elevated p-4 p-md-5">
+                <div class="d-grid gap-3 gap-md-4">
+                    <!-- Кнопка авторизации -->
+                    <a th:href="@{/login}" class="btn btn-brand btn-lg py-3 auth-link" role="button" aria-label="Go to authorization">
+                        Authorization
+                    </a>
+
+                    <!-- Разделитель -->
+                    <div class="text-center text-muted">or</div>
+
+                    <!-- Кнопка регистрации -->
+                    <a th:href="@{/users/add}" class="btn btn-outline-dark btn-lg py-3" role="button" aria-label="Go to registration">
+                        Registration
+                    </a>
+                </div>
+
+                <hr class="my-4 my-md-5">
+
+            </div>
+        </div>
+    </div>
+</main>
 </body>
 </html>
