@@ -1,49 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>New review page</title>
+    <title>New review</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        :root { --brand:#a1134c; }
+        body { background:#f6f7fb; }
+        .navbar { box-shadow:0 2px 12px rgba(0,0,0,.08); }
+        .brand-title { color:#fff; letter-spacing:.3px; font-weight:600; }
+        .page-title { color:var(--brand); font-weight:700; }
+        .card { border:0; border-radius:16px; box-shadow:0 8px 24px rgba(15,18,38,.06); }
+        .btn-ghost { border-radius:12px; border:1px solid #dee2e6; background:#fff; }
+        .btn-ghost:hover { border-color:#ced4da; box-shadow:0 4px 14px rgba(0,0,0,.06); }
+        .help { color:#6c757d; font-size:.875rem; }
+    </style>
 </head>
-<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/items}" class="nav-link">Items</a>
-            </li>
-        </ul>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand brand-title" th:href="@{/items}">
+            <span class="me-2">🧾</span> Reviews Center
+        </a>
+        <button class="navbar-toggler" type="button"
+                data-bs-toggle="collapse" data-bs-target="#navbarMenu"
+                aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item"><a th:href="@{/items}" class="nav-link">Items</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-white-50" sec:authorize="isAuthenticated()">
+                    Signed in as <strong class="text-white" sec:authentication="name"></strong>
+                </div>
+                <a th:href="@{/logout}" class="btn btn-sm btn-outline-light">Log out</a>
+            </div>
+        </div>
     </div>
 </nav>
-<body>
-<form action="#" class="container" th:action="@{/reviews/add}" th:object="${reviewDTO}" method="post">
-    <h1 style="color: #a1134c">Add new review</h1>
-    <div sec:authorize="isAuthenticated()">
-        <h5 style="color:darkslategray;">You are authenticated as: <span sec:authentication="name"></span></h5></div>
-    <div class="col-sm-2">
-        <h3 style="color: #0c4128">Current date:</h3>
-        <p th:text="${#temporals.format(localDate, 'dd-MM-yyyy')}"></p>
+
+<main class="container py-4 py-md-5">
+    <h1 class="page-title mb-4">Add new review</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="mb-3">
+                <span class="help">Current date:</span>
+                <strong th:text="${#temporals.format(#temporals.createNow(), 'dd-MM-yyyy')}">01-01-2025</strong>
+            </div>
+
+            <!-- CSRF подставится автоматически благодаря th:action + method="post" -->
+            <form th:action="@{/reviews/add}" th:object="${reviewDTO}" method="post" novalidate>
+
+                <div class="mb-3">
+                    <label for="reviewBody" class="form-label">Your review</label>
+                    <textarea id="reviewBody" th:field="*{reviewBody}"
+                              class="form-control" rows="4" maxlength="1000"
+                              placeholder="Write your review here..." required></textarea>
+
+                    <div class="text-danger mt-1" th:if="${#fields.hasErrors('reviewBody')}"
+                         th:errors="*{reviewBody}">Review error</div>
+                    <div class="help mt-1">Up to 1000 characters.</div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="button" class="btn btn-ghost" onclick="history.back()">Back</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div class="col-sm-5">
-        <label for="reviewBody" class="form-label">Enter review:</label>
-        <input type="text" th:field="*{reviewBody}" id="reviewBody"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('reviewBody')}" th:errors="*{reviewBody}">Name Error</div>
-    </div>
-    <br>
-    <button type="submit" class="btn btn-primary">Add</button>
-    <button type="button" onclick="goBack()" class="btn btn-primary">Go Back</button>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>
-</form>
+</main>
+
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>
