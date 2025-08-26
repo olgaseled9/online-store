@@ -2,74 +2,147 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Registration page</title>
+    <title>Registration • Online-store</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        :root {
+            --brand: #a1134c;
+            --ink: #0f172a;
+        }
+        body {
+            min-height: 100vh;
+            background:
+                    radial-gradient(1200px 600px at 10% -20%, rgba(161,19,76,.08), transparent 60%),
+                    radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
+                    #f8f9fa;
+            color: var(--ink);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .card-elevated {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow:
+                    0 1px 2px rgba(0,0,0,.04),
+                    0 10px 30px rgba(2,6,23,.10);
+        }
+        .brand-title {
+            font-weight: 700;
+            color: var(--brand);
+        }
+        .btn-brand {
+            background: var(--brand);
+            border-color: var(--brand);
+        }
+        .btn-brand:hover,
+        .btn-brand:focus {
+            background: #8a0f41;
+            border-color: #8a0f41;
+        }
+    </style>
 </head>
-<nav class="navbar navbar-expand-sm navbar-brand bg-dark">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarMenu">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Login page</a>
-            </li>
-            <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
-                <a href="#" th:href="@{/users/allusers}" class="nav-link">All users</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+
 <body>
-<form action="#" class="container" th:action="@{/users/add}" th:object="${userDTO}" method="post">
-    <h1 style="color: #a1134c">Registration for a new user</h1>
-    <div class="col-sm-3">
-        <label for="firstName" class="form-label">Enter first name:</label>
-        <input type="text" th:field="*{firstName}" id="firstName"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Firstname error</div>
+<main class="col-12 col-lg-8 col-xl-6">
+    <!-- Навбар (опционально) -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded-3 px-3 mb-4">
+        <a class="navbar-brand" th:href="@{/}">Online-store</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <!-- исправлено: ссылка именно на страницу логина -->
+                    <a th:href="@{/login}" class="nav-link">Login page</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
+                    <a th:href="@{/users/allusers}" class="nav-link">All users</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="card card-elevated p-4 p-md-5">
+        <h2 class="text-center mb-4 brand-title">Create a new account</h2>
+        <hr>
+
+        <!-- Глобальные сообщения -->
+        <div th:if="${param.error}" class="alert alert-danger text-center mb-4">
+            Something went wrong. Please check the form and try again.
+        </div>
+        <div th:if="${param.registered}" class="alert alert-success text-center mb-4">
+            Registration successful. You can now log in.
+        </div>
+
+        <form th:action="@{/users/add}" th:object="${userDTO}" method="post" novalidate>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label">First name</label>
+                    <input id="firstName" type="text" th:field="*{firstName}" class="form-control form-control-lg"
+                           placeholder="John">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('firstName')}"
+                         th:errors="*{firstName}">First name error</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last name</label>
+                    <input id="lastName" type="text" th:field="*{lastName}" class="form-control form-control-lg"
+                           placeholder="Doe">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('lastName')}"
+                         th:errors="*{lastName}">Last name error</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="patronymic" class="form-label">Patronymic</label>
+                    <input id="patronymic" type="text" th:field="*{patronymic}" class="form-control form-control-lg"
+                           placeholder="Optional">
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('patronymic')}"
+                         th:errors="*{patronymic}">Patronymic error</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Username</label>
+                    <input id="username" type="text" th:field="*{username}" class="form-control form-control-lg"
+                           placeholder="your.nickname" minlength="3" maxlength="15" required>
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('username')}"
+                         th:errors="*{username}">Username error</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Password</label>
+                    <input id="password" type="password" th:field="*{password}" class="form-control form-control-lg"
+                           placeholder="******" minlength="6" required>
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('password')}"
+                         th:errors="*{password}">Password error</div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="role" class="form-label">Choose role</label>
+                    <!-- Вариант 1: у userDTO есть поле role (строка) -->
+                    <select id="role" class="form-select form-select-lg" th:field="*{role}">
+                        <option value="" hidden>Select a role</option>
+                        <option th:each="r : ${roles}"
+                                th:value="${r.name}"
+                                th:text="${r.name}">
+                        </option>
+                    </select>
+                    <!-- Вариант 2 (если у вас поле roleName): замените th:field="*{role}" на *{roleName} -->
+                    <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('role')}"
+                         th:errors="*{role}">Role error</div>
+                </div>
+            </div>
+
+            <div class="d-grid gap-3 gap-md-4 mt-4">
+                <button type="submit" class="btn btn-brand btn-lg">Register</button>
+                <button type="reset" class="btn btn-outline-secondary btn-lg">Reset</button>
+                <a href="javascript:history.back()" class="btn btn-outline-dark btn-lg">Back</a>
+                <a th:href="@{/login}" class="btn btn-outline-primary btn-lg">Back to Login</a>
+            </div>
+        </form>
     </div>
-    <div class="col-sm-3">
-        <label for="lastName" class="form-label">Enter last name:</label>
-        <input type="text" th:field="*{lastName}" id="lastName"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">Lastname error</div>
-    </div>
-    <div class="col-sm-3">
-        <label for="patronymic" class="form-label">Enter patronymic:</label>
-        <input type="text" th:field="*{patronymic}" id="patronymic"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">Patronymic error</div>
-    </div>
-    <div class="col-sm-3">
-        <label for="username" class="form-label">Enter username:</label>
-        <input type="text" th:field="*{username}" id="username"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</div>
-    </div>
-    <div class="col-sm-3">
-        <label for="password" class="form-label">Enter password:</label>
-        <input type="text" th:field="*{password}" id="password" placeholder="******"
-               class="form-control">
-        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</div>
-    </div>
-    <div>
-        <label><span>Choose role:</span>
-            <select class="form-select" th:object="${roles}" th:name="role">
-                <option th:each="role : ${roles}"
-                        th:value="${role.name}"
-                        th:utext="${role.name}"></option>
-            </select>
-        </label></div>
-    <br>
-    <button type="submit" class="btn btn-primary">Add</button>
-    <button type="reset" class="btn btn-primary">Reset</button>
-    <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>
-</form>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+</main>
 </body>
 </html>
