@@ -1,4 +1,4 @@
-create table review
+CREATE TABLE IF NOT EXISTS review
 (
     id          bigint       not null primary key,
     review_body varchar(200) not null,

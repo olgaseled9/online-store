@@ -1,4 +1,4 @@
-create table item
+CREATE TABLE IF NOT EXISTS item
 (
     id          bigint       not null primary key,
     name        varchar(250)  not null,

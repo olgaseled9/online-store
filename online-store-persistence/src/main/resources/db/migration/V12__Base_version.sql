@@ -1,4 +1,4 @@
-create table orders
+CREATE TABLE IF NOT EXISTS orders
 (
     id         bigint not null primary key,
     created_by date   not null,
