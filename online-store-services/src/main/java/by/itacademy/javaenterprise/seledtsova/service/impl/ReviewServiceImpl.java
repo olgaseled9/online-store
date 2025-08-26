@@ -53,7 +53,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (Objects.nonNull(review)) {
             reviewDao.delete(review);
         } else {
-            throw new ServiceException(String.format("Review is not found with id= ", id));
+            throw new ServiceException(String.format("Review is not found with id= %s ", id));
         }
     }
 

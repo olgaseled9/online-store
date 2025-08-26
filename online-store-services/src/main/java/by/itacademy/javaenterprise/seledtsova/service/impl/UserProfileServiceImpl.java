@@ -28,7 +28,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (Objects.nonNull(user)) {
             return converter.convertUserProfileToDTO(user);
         } else {
-            throw new ServiceException(String.format("User was not found with id=", id));
+            throw new ServiceException(String.format("User was not found with id=%s", id));
         }
     }
 
@@ -39,7 +39,7 @@ public class UserProfileServiceImpl implements UserProfileService {
         if (Objects.nonNull(user)) {
             return converter.convertUserProfileToDTO(user);
         } else {
-            throw new ServiceException(String.format("User was not found with name ", name));
+            throw new ServiceException(String.format("User was not found with username=%s", name));
         }
     }
 
@@ -61,7 +61,7 @@ public class UserProfileServiceImpl implements UserProfileService {
                 user.setUserInformation(userInformation);
             }
         } else {
-            throw new ServiceException(String.format("User was not found ", userProfileDTO.getId()));
+            throw new ServiceException(String.format("User was not found with id =%s", userProfileDTO.getId()));
         }
     }
 }

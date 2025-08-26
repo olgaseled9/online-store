@@ -76,7 +76,7 @@ public class OrderServiceImpl implements OrderService {
         if (Objects.nonNull(order)) {
             return converter.convertOrderToOrderShowDTO(order);
         } else {
-            throw new ServiceException(String.format("Order not found with id= ", id));
+            throw new ServiceException(String.format("Order not found with id= %s", id));
         }
     }
 
@@ -88,7 +88,7 @@ public class OrderServiceImpl implements OrderService {
             Status status = statusDao.findStatusByName(statusType);
             order.setStatus(status);
         } else {
-            throw new ServiceException(String.format("Order not found with id= ", id));
+            throw new ServiceException(String.format("Order not found with id= %s", id));
         }
     }
 

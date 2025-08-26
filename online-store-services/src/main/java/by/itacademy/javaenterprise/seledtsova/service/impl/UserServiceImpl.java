@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         if (Objects.nonNull(user)) {
             return user;
         } else {
-            throw new ServiceException(String.format("User with userName=%s not found ", username));
+            throw new ServiceException(String.format("User with userName=%s not found", username));
         }
     }
 

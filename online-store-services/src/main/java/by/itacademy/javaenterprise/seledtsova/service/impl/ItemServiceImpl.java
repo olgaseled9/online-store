@@ -54,7 +54,7 @@ public class ItemServiceImpl implements ItemService {
         if (Objects.nonNull(item)) {
             return converter.convertItemToDTO(item);
         } else {
-            throw new ServiceException(String.format("Item is not found with id=", id));
+            throw new ServiceException(String.format("Item is not found with id=%s", id));
         }
     }
 
@@ -71,7 +71,7 @@ public class ItemServiceImpl implements ItemService {
             }
             itemDao.delete(item);
         } else {
-            throw new ServiceException(String.format("Item is not found with id=", id));
+            throw new ServiceException(String.format("Item is not found with id=%s", id));
         }
     }
 
