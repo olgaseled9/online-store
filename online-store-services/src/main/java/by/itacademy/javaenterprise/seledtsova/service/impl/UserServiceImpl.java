@@ -13,7 +13,6 @@ import by.itacademy.javaenterprise.seledtsova.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,12 +25,10 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
-    @Autowired
-    private UserDao userDao;
-    @Autowired
-    private RoleDao roleDao;
-    @Autowired
-    private UserServiceConverter converter;
+
+    private final UserDao userDao;
+    private final RoleDao roleDao;
+    private final UserServiceConverter converter;
 
     @Override
     @Transactional
@@ -49,10 +46,13 @@ public class UserServiceImpl implements UserService {
     public void addUser(UserDTO userDTO) {
         if (usernameExist(userDTO.getUsername())) {
             logger.debug("User dont create!");
-            throw new UserAlreadyExistException("User is already exist"
-                    + userDTO.getUsername());
+            throw new UserAlreadyExistException(String.format("User with userName=%s already exist", userDTO.getUsername()));
         } else {
             logger.debug("User create!");
+            if (Objects.isNull(userDTO.getRole())) {
+                userDTO.setRole(RoleType.ROLE_SALE_USER);
+            }
+
             userDao.add(converter.convertDTOtoUser(userDTO));
         }
     }
@@ -64,10 +64,9 @@ public class UserServiceImpl implements UserService {
         if (Objects.nonNull(user)) {
             return user;
         } else {
-            throw new ServiceException("User not found " + username);
+            throw new ServiceException(String.format("User with userName=%s not found ", username));
         }
     }
-
 
     @Override
     @Transactional
@@ -77,7 +76,7 @@ public class UserServiceImpl implements UserService {
             Role role = roleDao.findRoleByName(roleType);
             user.setRole(role);
         } else {
-            throw new ServiceException(String.format("User was not found", id));
+            throw new ServiceException(String.format("User with id=%s not found ", id));
         }
     }
 
@@ -88,7 +87,7 @@ public class UserServiceImpl implements UserService {
         if (Objects.nonNull(user)) {
             userDao.delete(user);
         } else {
-            throw new ServiceException(String.format("User was not found", id));
+            throw new ServiceException(String.format("User with id=%s was not found", id));
         }
     }
 

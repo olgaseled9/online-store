@@ -15,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatusServiceImpl implements StatusService {
 
-    @Autowired
     private final StatusDao statusDao;
 
     @Override

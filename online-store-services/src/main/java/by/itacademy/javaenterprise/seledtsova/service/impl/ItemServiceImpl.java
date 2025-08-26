@@ -25,11 +25,8 @@ import static by.itacademy.javaenterprise.seledtsova.service.impl.ServiceUtil.ge
 @RequiredArgsConstructor
 public class ItemServiceImpl implements ItemService {
 
-
     private final ItemDao itemDao;
-    @Autowired
     private final OrderItemDao orderItemDao;
-    @Autowired
     private final ItemServiceConverter converter;
 
     @Override

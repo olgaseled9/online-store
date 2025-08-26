@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en"
+      xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Registration • Online-store</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
     <style>
-        :root {
-            --brand: #a1134c;
-            --ink: #0f172a;
-        }
+        :root { --brand: #a1134c; --ink: #0f172a; }
         body {
             min-height: 100vh;
             background:
@@ -16,37 +15,23 @@
                     radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
                     #f8f9fa;
             color: var(--ink);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 2rem;
         }
         .card-elevated {
-            border: 0;
-            border-radius: 1rem;
-            box-shadow:
-                    0 1px 2px rgba(0,0,0,.04),
-                    0 10px 30px rgba(2,6,23,.10);
+            border: 0; border-radius: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 30px rgba(2,6,23,.10);
         }
-        .brand-title {
-            font-weight: 700;
-            color: var(--brand);
-        }
-        .btn-brand {
-            background: var(--brand);
-            border-color: var(--brand);
-        }
-        .btn-brand:hover,
-        .btn-brand:focus {
-            background: #8a0f41;
-            border-color: #8a0f41;
-        }
+        .brand-title { font-weight: 700; color: var(--brand); }
+        .btn-brand { background: var(--brand); border-color: var(--brand); }
+        .btn-brand:hover, .btn-brand:focus { background: #8a0f41; border-color: #8a0f41; }
+        .invalid-feedback.d-block { font-size: .95rem; }
     </style>
 </head>
 
 <body>
 <main class="col-12 col-lg-8 col-xl-6">
-    <!-- Навбар (опционально) -->
+    <!-- Навбар -->
     <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded-3 px-3 mb-4">
         <a class="navbar-brand" th:href="@{/}">Online-store</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
@@ -55,7 +40,6 @@
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <!-- исправлено: ссылка именно на страницу логина -->
                     <a th:href="@{/login}" class="nav-link">Login page</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
@@ -69,7 +53,7 @@
         <h2 class="text-center mb-4 brand-title">Create a new account</h2>
         <hr>
 
-        <!-- Глобальные сообщения -->
+        <!-- Сообщения -->
         <div th:if="${param.error}" class="alert alert-danger text-center mb-4">
             Something went wrong. Please check the form and try again.
         </div>
@@ -82,7 +66,7 @@
                 <div class="col-md-6">
                     <label for="firstName" class="form-label">First name</label>
                     <input id="firstName" type="text" th:field="*{firstName}" class="form-control form-control-lg"
-                           placeholder="John">
+                           placeholder="John" required>
                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('firstName')}"
                          th:errors="*{firstName}">First name error</div>
                 </div>
@@ -90,7 +74,7 @@
                 <div class="col-md-6">
                     <label for="lastName" class="form-label">Last name</label>
                     <input id="lastName" type="text" th:field="*{lastName}" class="form-control form-control-lg"
-                           placeholder="Doe">
+                           placeholder="Doe" required>
                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('lastName')}"
                          th:errors="*{lastName}">Last name error</div>
                 </div>
@@ -119,9 +103,10 @@
                          th:errors="*{password}">Password error</div>
                 </div>
 
-                <div class="col-md-6">
+                <!-- Выбор роли: виден только администратору -->
+                <div class="col-md-6" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
                     <label for="role" class="form-label">Choose role</label>
-                    <!-- Вариант 1: у userDTO есть поле role (строка) -->
+                    <!-- Вариант: у userDTO есть поле String role -->
                     <select id="role" class="form-select form-select-lg" th:field="*{role}">
                         <option value="" hidden>Select a role</option>
                         <option th:each="r : ${roles}"
@@ -129,9 +114,14 @@
                                 th:text="${r.name}">
                         </option>
                     </select>
-                    <!-- Вариант 2 (если у вас поле roleName): замените th:field="*{role}" на *{roleName} -->
+                    <!-- Если у userDTO поле roleName — замените th:field="*{role}" на *{roleName} -->
                     <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('role')}"
                          th:errors="*{role}">Role error</div>
+                </div>
+
+                <!-- Для НЕ админа — скрытое поле ROLE=CUSTOMER -->
+                <div sec:authorize="!hasRole('ROLE_ADMINISTRATOR')">
+                    <input type="hidden" th:field="*{role}" value="CUSTOMER"/>
                 </div>
             </div>
 
