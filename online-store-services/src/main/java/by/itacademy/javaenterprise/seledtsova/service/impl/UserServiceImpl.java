@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
         } else {
             logger.debug("User create!");
             if (Objects.isNull(userDTO.getRole())) {
-                userDTO.setRole(RoleType.ROLE_SALE_USER);
+                userDTO.setRole(RoleType.ROLE_CUSTOMER_USER);
             }
 
             userDao.add(converter.convertDTOtoUser(userDTO));

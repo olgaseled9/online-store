@@ -10,6 +10,7 @@ import by.itacademy.javaenterprise.seledtsova.dto.ItemShowPageDTO;
 import by.itacademy.javaenterprise.seledtsova.dto.OrderShowDTO;
 import by.itacademy.javaenterprise.seledtsova.entity.*;
 import by.itacademy.javaenterprise.seledtsova.exception.ServiceException;
+import by.itacademy.javaenterprise.seledtsova.service.EmailService;
 import by.itacademy.javaenterprise.seledtsova.service.ItemService;
 import by.itacademy.javaenterprise.seledtsova.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,6 @@ import java.util.*;
 
 import static by.itacademy.javaenterprise.seledtsova.service.impl.ServiceUtil.getNumbersOfPages;
 
-
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
@@ -32,6 +32,7 @@ public class OrderServiceImpl implements OrderService {
     private final UserDao userDao;
     private final ItemService itemService;
     private final OrderServiceConverter converter;
+    private final EmailService emailService;
 
     @Override
     @Transactional
@@ -102,10 +103,15 @@ public class OrderServiceImpl implements OrderService {
         } else {
             Order order = new Order();
             order.setStatus(statusDao.findStatusByName(StatusType.NEW));
-            order.setUser(userDao.findByUsername(username));
+            User user = userDao.findByUsername(username);
+            order.setUser(user);
             order.setCreatedBy(LocalDate.now());
             orderDao.add(order);
             Long orderId = order.getId();
+
+            String to = user.getUserInformation().getEmail();
+            emailService.sendOrderConfirmation(to, orderId);
+
             saveOrderItemByItemsCount(itemsCount, itemId, orderId);
         }
     }
@@ -126,7 +132,6 @@ public class OrderServiceImpl implements OrderService {
     public ItemShowPageDTO findOrdersAndItemsWithPaginationForUser(int pageNumber, int pageSize, String username) {
         ItemShowPageDTO itemShowPage = new ItemShowPageDTO();
 
-        // DAO-метод должен уметь выбирать только заказы конкретного пользователя
         List<Order> orders = orderDao.findWithPaginationByUsername(pageNumber, pageSize, username);
 
         List<ItemShowDTO> itemShowDTOS = new ArrayList<>();

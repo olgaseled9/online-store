@@ -5,51 +5,81 @@
     <title>Add new item</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
 </head>
+
 <nav class="navbar navbar-expand-sm navbar-brand bg-dark">
     <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarMenu">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" th:href="@{/logout}" class="nav-link">Logout</a>
-            </li>
-            <li class="nav-item">
-                <a href="#" th:href="@{/items}" class="nav-link">Items</a>
-            </li>
+            <li class="nav-item"><a th:href="@{/logout}" class="nav-link">Logout</a></li>
+            <li class="nav-item"><a th:href="@{/items}" class="nav-link">Items</a></li>
         </ul>
     </div>
 </nav>
+
 <body>
-<form action="#" class="container" th:action="@{/add-item}" th:object="${itemDTO}" method="post">
-    <h1 style="color: #a1134c">Add new item</h1>
-       <div class="col-sm-3">
+<form class="container"
+      th:action="@{/add-item}"
+      th:object="${itemDTO}"
+      method="post"
+      enctype="multipart/form-data">
+    <h1 style="color:#a1134c">Add new item</h1>
+
+    <div class="col-sm-3">
         <label for="name" class="form-label">Enter item name:</label>
-        <input type="text" th:field="*{name}" id="name"
-               class="form-control">
-           <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
+        <input type="text" th:field="*{name}" id="name" class="form-control">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</div>
     </div>
+
     <div class="col-sm-3">
         <label for="price" class="form-label">Enter item price:</label>
-        <input type="text" th:field="*{price}" id="price"
-               class="form-control">
+        <input type="text" th:field="*{price}" id="price" class="form-control">
         <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price error</div>
     </div>
+
     <div class="col-sm-3">
         <label for="description" class="form-label">Enter item description:</label>
-        <input type="text" th:field="*{description}" id="description"
-               class="form-control">
+        <input type="text" th:field="*{description}" id="description" class="form-control">
         <div th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</div>
     </div>
+
+    <div class="col-sm-3">
+        <label for="imageFile" class="form-label">Select image:</label>
+        <input type="file" th:field="*{imageFile}" id="imageFile" class="form-control" accept="image/*">
+        <div th:if="${#fields.hasErrors('imageFile')}" th:errors="*{imageFile}">Image error</div>
+    </div>
+
     <br>
     <button type="submit" class="btn btn-primary">Add</button>
     <button type="reset" class="btn btn-primary">Reset</button>
-    <button type="button" onclick="goBack()" class="btn btn-primary">Back</button>
+    <button type="button" onclick="window.history.back()" class="btn btn-primary">Back</button>
 </form>
-<script>
-    function goBack() {
-        window.history.back();
-    }
-</script>
+<footer class="text-center text-lg-start bg-light text-muted mt-5 py-4 shadow-sm">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Online-store</h6>
+                <p>Интернет-магазин зоотоваров</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Контакты</h6>
+                <p><i class="bi bi-geo-alt me-2"></i> ул. Примерная, 123, Минск</p>
+                <p><i class="bi bi-envelope me-2"></i> test@online-store.com</p>
+                <p><i class="bi bi-telephone me-2"></i> +375 (44) 123-45-67</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Полезные ссылки</h6>
+                <p><a href="#" class="text-reset text-decoration-none">О нас</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Услуги</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Поддержка</a></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center p-3 border-top">
+        © 2025 Online-store. Все права защищены.
+    </div>
+</footer>
 </body>
 </html>

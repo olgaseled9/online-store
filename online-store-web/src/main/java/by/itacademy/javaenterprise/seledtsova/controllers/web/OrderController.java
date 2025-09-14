@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 import static by.itacademy.javaenterprise.seledtsova.config.RoleType.CUSTOMER_USER;
+import static by.itacademy.javaenterprise.seledtsova.entity.RoleType.ROLE_CUSTOMER_USER;
 
 @Log4j2
 @Controller
@@ -33,7 +34,7 @@ public class OrderController {
     private boolean isAdmin(Authentication auth) {
         if (auth == null) return false;
         for (GrantedAuthority a : auth.getAuthorities()) {
-            if (!CUSTOMER_USER.name().equals(a.getAuthority())) {
+            if (!ROLE_CUSTOMER_USER.name().equals(a.getAuthority())) {
                 return true;
             }
         }

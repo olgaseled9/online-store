@@ -5,21 +5,38 @@
     <meta charset="UTF-8">
     <title>Update profile • Online-store</title>
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <style>
         :root { --brand: #a1134c; --ink: #0f172a; }
+
+        html, body { height: 100%; margin: 0; }
+
         body {
+            display: grid;
+            grid-template-rows: auto 1fr auto; /* navbar | main | footer */
             min-height: 100vh;
             background:
                     radial-gradient(1200px 600px at 10% -20%, rgba(161,19,76,.08), transparent 60%),
                     radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
                     #f8f9fa;
             color: var(--ink);
-            display: flex; align-items: center; justify-content: center;
+        }
+
+        main {
+            display: grid;
+            place-items: center; /* центрирование формы */
             padding: 2rem;
         }
+
+        footer {
+            border-top: 1px solid rgba(0,0,0,.05);
+        }
+
         .card-elevated {
             border: 0; border-radius: 1rem;
-            box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 30px rgba(2,6,23,.10);
+            box-shadow: 0 1px 2px rgba(0,0,0,.04),
+            0 10px 30px rgba(2,6,23,.10);
         }
         .brand-title { font-weight: 700; color: var(--brand); }
         .btn-brand { background: var(--brand); border-color: var(--brand); }
@@ -28,9 +45,9 @@
 </head>
 
 <body>
-<main class="col-12 col-lg-8 col-xl-6">
-    <!-- Навбар -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark rounded-3 px-3 mb-4 w-100">
+<header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark px-3">
         <a class="navbar-brand" th:href="@{/}">Online-store</a>
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav ms-auto">
@@ -40,57 +57,90 @@
             </ul>
         </div>
     </nav>
+</header>
 
-    <div class="card card-elevated p-4 p-md-5 w-100">
-        <h2 class="text-center mb-4 brand-title">Update profile</h2>
-        <hr>
+<main>
+    <div class="col-12 col-lg-8 col-xl-6">
+        <div class="card card-elevated p-4 p-md-5 w-100">
+            <h2 class="text-center mb-4 brand-title">Update profile</h2>
+            <hr>
 
-           <div th:if="${param.error}" class="alert alert-danger text-center mb-3">
-            Failed to update profile. Please check fields.
-        </div>
-        <div th:if="${param.updated}" class="alert alert-success text-center mb-3">
-            Profile successfully updated!
-        </div>
-
-        <form th:action="@{/profiles/update}" th:object="${userProfileDTO}" method="post" novalidate>
-            <input type="hidden" th:field="*{id}"/>
-            <input type="hidden" th:if="${_csrf != null}"
-                   th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-            <div class="row g-3">
-                <div class="col-md-6">
-                    <label for="firstName" class="form-label">First name</label>
-                    <input id="firstName" type="text" th:field="*{firstName}" class="form-control form-control-lg">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="lastName" class="form-label">Last name</label>
-                    <input id="lastName" type="text" th:field="*{lastName}" class="form-control form-control-lg">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="patronymic" class="form-label">Patronymic</label>
-                    <input id="patronymic" type="text" th:field="*{patronymic}" class="form-control form-control-lg">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="email" class="form-label">Email</label>
-                    <input id="email" type="email" th:field="*{email}" class="form-control form-control-lg">
-                </div>
-
-                <div class="col-md-6">
-                    <label for="telephone" class="form-label">Telephone</label>
-                    <input id="telephone" type="text" th:field="*{telephone}" class="form-control form-control-lg">
-                </div>
+            <!-- Сообщения -->
+            <div th:if="${param.error}" class="alert alert-danger text-center mb-3">
+                Failed to update profile. Please check fields.
+            </div>
+            <div th:if="${param.updated}" class="alert alert-success text-center mb-3">
+                Profile successfully updated!
             </div>
 
-            <div class="d-grid gap-3 gap-md-4 mt-4">
-                <button type="submit" class="btn btn-brand btn-lg">Update</button>
-                <button type="reset" class="btn btn-outline-secondary btn-lg">Reset</button>
-                <a href="javascript:history.back()" class="btn btn-outline-dark btn-lg">Go Back</a>
-            </div>
-        </form>
+            <form th:action="@{/profiles/update}" th:object="${userProfileDTO}" method="post" novalidate>
+                <input type="hidden" th:field="*{id}"/>
+                <input type="hidden" th:if="${_csrf != null}"
+                       th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="firstName" class="form-label">First name</label>
+                        <input id="firstName" type="text" th:field="*{firstName}" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="lastName" class="form-label">Last name</label>
+                        <input id="lastName" type="text" th:field="*{lastName}" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="patronymic" class="form-label">Patronymic</label>
+                        <input id="patronymic" type="text" th:field="*{patronymic}" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" th:field="*{email}" class="form-control form-control-lg">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="telephone" class="form-label">Telephone</label>
+                        <input id="telephone" type="text" th:field="*{telephone}" class="form-control form-control-lg">
+                    </div>
+                </div>
+
+                <div class="d-grid gap-3 gap-md-4 mt-4">
+                    <button type="submit" class="btn btn-brand btn-lg">Update</button>
+                    <button type="reset" class="btn btn-outline-secondary btn-lg">Reset</button>
+                    <a href="javascript:history.back()" class="btn btn-outline-dark btn-lg">Go Back</a>
+                </div>
+            </form>
+        </div>
     </div>
 </main>
+
+<footer class="text-center text-lg-start bg-light text-muted py-4 shadow-sm">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Online-store</h6>
+                <p>Интернет-магазин зоотоваров</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Контакты</h6>
+                <p><i class="bi bi-geo-alt me-2"></i> ул. Примерная, 123, Минск</p>
+                <p><i class="bi bi-envelope me-2"></i> test@online-store.com</p>
+                <p><i class="bi bi-telephone me-2"></i> +375 (44) 123-45-67</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Полезные ссылки</h6>
+                <p><a href="#" class="text-reset text-decoration-none">О нас</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Услуги</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Поддержка</a></p>
+            </div>
+        </div>
+    </div>
+    <div class="text-center p-3 border-top">
+        © 2025 Online-store. Все права защищены.
+    </div>
+</footer>
+
+<script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

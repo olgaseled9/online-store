@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.seledtsova.service;
 
 import by.itacademy.javaenterprise.seledtsova.dto.ItemDTO;
 import by.itacademy.javaenterprise.seledtsova.dto.ItemPageDTO;
+import by.itacademy.javaenterprise.seledtsova.entity.Item;
 
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface ItemService {
 
     void removeItemById(Long id);
 
+    Item findEntityById(Long id);
+
+    byte[] findImageBlobById(Long id);
 }
 

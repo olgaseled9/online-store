@@ -15,7 +15,6 @@ import javax.persistence.*;
 @Immutable
 @Entity
 public class Status {
-
     @Id
     @SequenceGenerator(name = "status_id_seq", sequenceName = "status_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "status_id_seq")

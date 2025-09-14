@@ -2,6 +2,7 @@ package by.itacademy.javaenterprise.seledtsova.controllers.web;
 
 import by.itacademy.javaenterprise.seledtsova.dto.UserDTO;
 import by.itacademy.javaenterprise.seledtsova.entity.RoleType;
+import by.itacademy.javaenterprise.seledtsova.exception.UserAlreadyExistException;
 import by.itacademy.javaenterprise.seledtsova.service.RoleService;
 import by.itacademy.javaenterprise.seledtsova.service.UserService;
 import lombok.RequiredArgsConstructor;

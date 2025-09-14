@@ -1,13 +1,17 @@
 package by.itacademy.javaenterprise.seledtsova.controllers.web;
 
+import by.itacademy.javaenterprise.seledtsova.dao.impl.ItemDaoImpl;
 import by.itacademy.javaenterprise.seledtsova.dto.ItemCountDTO;
 import by.itacademy.javaenterprise.seledtsova.dto.ItemDTO;
 import by.itacademy.javaenterprise.seledtsova.dto.ItemPageDTO;
+import by.itacademy.javaenterprise.seledtsova.entity.Item;
 import by.itacademy.javaenterprise.seledtsova.service.ItemService;
 import by.itacademy.javaenterprise.seledtsova.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,10 +26,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ItemController {
 
-    @Autowired
-    private OrderService orderService;
-    @Autowired
-    private ItemService itemService;
+    private final OrderService orderService;
+    private final ItemService itemService;
+    private final ItemDaoImpl itemDao;
 
     @RequestMapping(value = {"/items"}, method = RequestMethod.GET)
     public String getAll(Model model) {
@@ -56,6 +59,18 @@ public class ItemController {
         ItemDTO item = itemService.findItemById(id);
         model.addAttribute("item", item);
         return "get_item_by_id";
+    }
+
+    @GetMapping("/items/{id}/image")
+    public ResponseEntity<byte[]> getItemImage(@PathVariable Long id) {
+        byte[] blob = itemDao.findImageBlobById(id);
+        if (blob == null || blob.length == 0) {
+            return ResponseEntity.notFound().build();
+        }
+        String ct = itemDao.findImageContentTypeById(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(ct != null ? ct : MediaType.IMAGE_JPEG_VALUE))
+                .body(blob);
     }
 
     @GetMapping("/add-item-to-order")

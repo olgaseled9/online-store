@@ -33,7 +33,7 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand brand-title" th:href="@{/items}">
-            <span class="me-2">🧾</span> Inventory
+            <span class="me-2">🧾</span> Online shop
         </a>
 
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu"
@@ -70,18 +70,10 @@
     </div>
 </nav>
 
-<!-- Content -->
+
 <main class="container py-4 py-md-5">
     <div class="d-flex align-items-center justify-content-between flex-wrap mb-3">
         <h2 class="page-title mb-3 mb-md-0">Items list</h2>
-
-        <!-- Optional quick search -->
-        <form class="d-flex gap-2" th:action="@{/items}" method="get">
-            <input class="form-control form-control-sm" type="search" name="q"
-                   placeholder="Search by name or description..." aria-label="Search"
-                   th:value="${param.q}">
-            <button class="btn btn-sm btn-ghost" type="submit">Search</button>
-        </form>
     </div>
 
     <div class="card">
@@ -114,7 +106,32 @@
         <button class="btn btn-ghost" type="button" onclick="history.back()">Back</button>
     </div>
 </main>
+<footer class="text-center text-lg-start bg-light text-muted mt-5 py-4 shadow-sm">
+    <div class="container text-center text-md-start">
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Online-store</h6>
+                <p>Интернет-магазин зоотоваров</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Контакты</h6>
+                <p><i class="bi bi-geo-alt me-2"></i> ул. Примерная, 123, Минск</p>
+                <p><i class="bi bi-envelope me-2"></i> test@online-store.com</p>
+                <p><i class="bi bi-telephone me-2"></i> +375 (44) 123-45-67</p>
+            </div>
+            <div class="col-md-4 mb-3">
+                <h6 class="text-uppercase fw-bold mb-3">Полезные ссылки</h6>
+                <p><a href="#" class="text-reset text-decoration-none">О нас</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Услуги</a></p>
+                <p><a href="#" class="text-reset text-decoration-none">Поддержка</a></p>
+            </div>
+        </div>
+    </div>
 
+    <div class="text-center p-3 border-top">
+        © 2025 Online-store. Все права защищены.
+    </div>
+</footer>
 <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </body>
 </html>

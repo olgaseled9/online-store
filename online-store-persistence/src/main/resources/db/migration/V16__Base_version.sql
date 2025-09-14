@@ -1,0 +1,1 @@
+ALTER TABLE public.item ADD COLUMN IF NOT EXISTS image_content_type VARCHAR(64);

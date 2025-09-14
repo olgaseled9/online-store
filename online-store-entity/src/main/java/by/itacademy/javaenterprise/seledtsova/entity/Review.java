@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "review")
 public class Review {
-
     @Id
     @SequenceGenerator(name = "review_id_seq", sequenceName = "review_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "review_id_seq")

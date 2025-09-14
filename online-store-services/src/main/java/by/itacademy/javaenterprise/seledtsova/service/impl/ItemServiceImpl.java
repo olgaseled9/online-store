@@ -10,10 +10,9 @@ import by.itacademy.javaenterprise.seledtsova.entity.OrderItem;
 import by.itacademy.javaenterprise.seledtsova.exception.ServiceException;
 import by.itacademy.javaenterprise.seledtsova.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional; // <-- ВАЖНО: spring-транзакции
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +29,7 @@ public class ItemServiceImpl implements ItemService {
     private final ItemServiceConverter converter;
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<ItemDTO> getItems() {
         List<Item> items = itemDao.findAll();
         List<ItemDTO> itemDTOS = new ArrayList<>();
@@ -40,7 +39,6 @@ public class ItemServiceImpl implements ItemService {
         return itemDTOS;
     }
 
-
     @Override
     @Transactional
     public void addItem(ItemDTO itemDTO) {
@@ -48,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ItemDTO findItemById(Long id) {
         Item item = itemDao.findById(id);
         if (Objects.nonNull(item)) {
@@ -76,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ItemPageDTO findItemsWithPagination(int pageNumber, int pageSize) {
         ItemPageDTO itemPage = new ItemPageDTO();
         List<Item> items = itemDao.findWithPagination(pageNumber, pageSize);
@@ -91,5 +89,21 @@ public class ItemServiceImpl implements ItemService {
         List<Integer> numbersOfPages = getNumbersOfPages(pageSize, countOfArticles);
         itemPage.getNumbersOfPages().addAll(numbersOfPages);
         return itemPage;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Item findEntityById(Long id) {
+        Item item = itemDao.findById(id);
+        if (item == null) {
+            throw new ServiceException(String.format("Item is not found with id=%s", id));
+        }
+        return item;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public byte[] findImageBlobById(Long id) {
+        return itemDao.findImageBlobById(id);
     }
 }

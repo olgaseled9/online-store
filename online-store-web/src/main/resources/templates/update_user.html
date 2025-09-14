@@ -1,3 +1,38 @@
+<style>
+    :root { --brand: #a1134c; --ink: #0f172a; }
+
+    html, body { height: 100%; margin: 0; }
+
+    /* Надёжная раскладка: шапка, контент, футер */
+    body {
+        min-height: 100vh;
+        display: grid;
+        grid-template-rows: auto 1fr auto; /* header | main | footer */
+        background:
+                radial-gradient(1200px 600px at 10% -20%, rgba(161,19,76,.08), transparent 60%),
+                radial-gradient(1000px 500px at 110% 0%, rgba(5,10,71,.06), transparent 60%),
+                #f8f9fa;
+        color: var(--ink);
+    }
+
+    header, main, footer { width: 100%; }
+
+    main {
+        display: grid;
+        place-items: center;
+        padding: 2rem;
+    }
+
+    footer { border-top: 1px solid rgba(0,0,0,.05); }
+
+    .card-elevated {
+        border: 0; border-radius: 1rem;
+        box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 30px rgba(2,6,23,.10);
+    }
+    .brand-title { font-weight: 700; color: var(--brand); }
+    .btn-brand { background: var(--brand); border-color: var(--brand); }
+    .btn-brand:hover, .btn-brand:focus { background: #8a0f41; border-color: #8a0f41; }
+</style>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
@@ -45,7 +80,7 @@
         <h2 class="text-center mb-4 brand-title">Update user role</h2>
         <hr>
 
-        <!-- Сообщения -->
+
         <div th:if="${param.error}" class="alert alert-danger text-center mb-3">
             Failed to update role. Please try again.
         </div>
@@ -53,7 +88,6 @@
             Role successfully updated!
         </div>
 
-        <!-- Доступ к странице (опционально): только администратор -->
         <div sec:authorize="!hasRole('ROLE_ADMINISTRATOR')" class="alert alert-warning mb-3">
             You don't have permission to update roles.
         </div>
@@ -67,8 +101,6 @@
             <div class="row g-3">
                 <div class="col-12">
                     <label for="role" class="form-label">Select the role you want to assign</label>
-
-                    <!-- Вариант А: DTO имеет поле String role -->
                     <select id="role" class="form-select form-select-lg" th:field="*{role}">
                         <option value="" hidden>Select a role</option>
                         <option th:each="r : ${roles}"
@@ -77,10 +109,6 @@
                         </option>
                     </select>
 
-                    <!--
-                    Вариант B (если хранишь ID): в DTO поле Long roleId,
-                    тогда замени th:field="*{role}" на *{roleId} и th:value на ${r.id}.
-                    -->
                 </div>
             </div>
 

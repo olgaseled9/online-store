@@ -1,9 +1,11 @@
 CREATE TABLE IF NOT EXISTS item
 (
-    id          bigint       not null primary key,
-    name        varchar(250)  not null,
-    price       decimal      not null,
-    description varchar(200) not null
-);
-alter sequence item_id_seq owned by item.id;
+    id                 BIGINT       NOT NULL PRIMARY KEY,
+    name               VARCHAR(250) NOT NULL,
+    price              DECIMAL      NOT NULL,
+    description        VARCHAR(200) NOT NULL,
+    image_blob         BYTEA,
+    image_content_type VARCHAR(64)
+    );
 
+ALTER SEQUENCE item_id_seq OWNED BY item.id;
